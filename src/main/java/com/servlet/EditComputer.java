@@ -47,7 +47,7 @@ public class EditComputer extends HttpServlet {
 //		HttpSession s = request.getSession();
 //		s.setAttribute("editId", id);
 		
-		Computer c = ComputerService.readFilterByID(Integer.valueOf(id));
+		Computer c = ComputerService.readFilterByID(Long.valueOf(id));
 		ComputerDTO cDTO = MapComputer.computerToDTO(c);
 		request.setAttribute("computerEdit", cDTO);
 		request.setAttribute("companyId", c.getCompany().getId());
@@ -101,7 +101,7 @@ public class EditComputer extends HttpServlet {
 		if(formValid){
 			ComputerService.update(MapComputer.dtoToComputer(cDTO));
 			
-			Computer computerChanged = ComputerService.readFilterByID(Integer.valueOf(computerId));		
+			Computer computerChanged = ComputerService.readFilterByID(Long.valueOf(computerId));		
 			cDTO = MapComputer.computerToDTO(computerChanged);
 			
 			List<ComputerDTO> computerDTOs = new ArrayList<ComputerDTO>();
@@ -112,7 +112,7 @@ public class EditComputer extends HttpServlet {
 			request.getRequestDispatcher("WEB-INF/view/dashboard.jsp").forward(request, response);
 		}
 		else {
-			Computer c = ComputerService.readFilterByID(Integer.valueOf(computerId));
+			Computer c = ComputerService.readFilterByID(Long.valueOf(computerId));
 			cDTO = MapComputer.computerToDTO(c);
 			request.setAttribute("computerEdit", cDTO);
 			request.setAttribute("companyId", c.getCompany().getId());

@@ -1,6 +1,7 @@
 package com.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletConfig;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import com.dto.ComputerDTO;
 import com.dto.MapComputer;
 import com.om.Company;
+import com.om.Computer;
 import com.services.CompanyService;
 import com.services.ComputerService;
 import com.servlet.wrapper.PageWrapper;
@@ -58,8 +60,24 @@ public class AddComputer extends HttpServlet {
 			message.append("Please enter a computer Name");
 		}
 		String introduced  = request.getParameter("introducedDate");
-		String discontinued = request.getParameter("discontinuedDate");		
+		if(introduced == null){
+			introduced = "";
+			formValid = false;
+			message.append("Please enter a introduced Date");
+		}
+		String discontinued = request.getParameter("discontinuedDate");	
+		if(discontinued == null){
+			discontinued = "";
+			formValid = false;
+			message.append("Please enter a discontinued Date");
+		}
 		String companyId    = request.getParameter("company");
+		if("0".equals(companyId)){
+			companyId = null;
+			formValid = false;
+			message.append("Please choose a Company");
+		}
+		
 		
 		ComputerDTO cDTO = new ComputerDTO();
 		cDTO.setName(computerName);
@@ -81,9 +99,11 @@ public class AddComputer extends HttpServlet {
 				page.setOrderDirection("ASC");
 			}
 			
-			ComputerService.create(MapComputer.dtoToComputer(cDTO));
-						
 			page.setFilterName(computerName);
+			
+			ComputerService.create(MapComputer.dtoToComputer(cDTO));
+			ComputerService.readFilterByName(page);
+			
 						
 			page.setNumberOfPages((Integer) (page.getResults().size())/page.getComputerPerPage()); 		
 			

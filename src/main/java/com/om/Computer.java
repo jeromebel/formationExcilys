@@ -2,8 +2,12 @@ package com.om;
 
 import java.util.Date;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class Computer{
 
+	
 	private long id;
 	private Company company;
 	private String name;

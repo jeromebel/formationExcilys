@@ -3,12 +3,15 @@ package com.services;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import com.dao.DAOfactory;
 import com.dto.ComputerDTO;
 import com.dto.MapComputer;
 import com.om.Computer;
 import com.servlet.wrapper.PageWrapper;
 
+@Component
 public class ComputerService {
 
 	public static void readByPage(PageWrapper<ComputerDTO> page) {
@@ -48,7 +51,7 @@ public class ComputerService {
 
 	}
 
-	public static Computer readFilterByID(Integer id) {
+	public static Computer readFilterByID(Long id) {
 
 		try {
 			DAOfactory.INSTANCE.startTransaction();
@@ -98,7 +101,7 @@ public class ComputerService {
 			DAOfactory.INSTANCE.getComputerDAO().create(c);
 			DAOfactory.INSTANCE.getLogDAO().create(c.getId(),
 					"Add new computer");
-
+			
 			DAOfactory.INSTANCE.endTransaction();
 		} catch (SQLException e) {
 			DAOfactory.INSTANCE.rollbackTransaction();

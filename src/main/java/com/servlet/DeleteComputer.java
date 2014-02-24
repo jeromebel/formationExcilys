@@ -34,7 +34,7 @@ public class DeleteComputer extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String id = request.getParameter("idComputer");
 				
-		Computer c = ComputerService.readFilterByID(Integer.valueOf(id));
+		Computer c = ComputerService.readFilterByID(Long.valueOf(id));
 		ComputerDTO cDTO = MapComputer.computerToDTO(c);
 		request.setAttribute("computerDelete", cDTO);
 		request.getRequestDispatcher("WEB-INF/view/confirmationDeleteComputer.jsp").forward(request, response);

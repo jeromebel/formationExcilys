@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,7 +19,7 @@ import com.om.Computer;
 import com.servlet.wrapper.PageWrapper;
 
 public class ComputerDAO {
-	final Logger LOG = LoggerFactory.getLogger(ComputerDAO.class);
+	final Logger log = LoggerFactory.getLogger(ComputerDAO.class);
 
 	public Integer readTotalCount() throws SQLException {
 		PreparedStatement stmt = null;
@@ -109,7 +110,7 @@ public class ComputerDAO {
 
 	}
 
-	public Computer readFilterByID(Integer id) throws SQLException {
+	public Computer readFilterByID(Long id) throws SQLException {
 
 		PreparedStatement stmt = null;
 		Connection cn = DAOfactory.INSTANCE.getConnexion();
@@ -117,10 +118,10 @@ public class ComputerDAO {
 				.prepareStatement("SELECT c.id, c.name, c.company_id, c.introduced, c.discontinued , f.name"
 						+ " FROM computer c LEFT JOIN company f ON c.company_id = f.id "
 						+ " WHERE c.id = ? ;");
-		stmt.setInt(1, id);
+		stmt.setLong(1, id);
 		List<Computer> computers = getComputers(cn, stmt);
 		if (computers.size() != 1) {
-			LOG.error("id of the computer is not found");
+			log.error("id of the computer is not found");
 			return null;
 		}
 
@@ -173,13 +174,23 @@ public class ComputerDAO {
 
 			cn = DAOfactory.INSTANCE.getConnexion();
 			stmt = (PreparedStatement) cn.prepareStatement(
-					"INSERT INTO computer (name , introduced , discontinued , company_id)"
+					"INSERT INTO computer (name , introduced , discontinued , company_id) "
 							+ "VALUES(?,?,?,?)",
 					PreparedStatement.RETURN_GENERATED_KEYS);
 			stmt.setString(1, c.getName());
-			stmt.setTimestamp(2, new Timestamp(c.getIntroduced().getTime()));
-			stmt.setTimestamp(3, new Timestamp(c.getDiscontinued().getTime()));
-			stmt.setInt(4, c.getCompany().getId());
+			if (c.getIntroduced() != null)
+				stmt.setTimestamp(2, new Timestamp(c.getIntroduced().getTime()));
+			else
+				stmt.setTimestamp(2, new Timestamp(0));
+			if(c.getDiscontinued() != null)
+				stmt.setTimestamp(3, new Timestamp(c.getDiscontinued().getTime()));
+			else
+				stmt.setTimestamp(3, new Timestamp(0));	
+			if ((c.getCompany() != null) && (c.getCompany().getId() != 0))
+				stmt.setInt(4, c.getCompany().getId());
+			else
+				stmt.setNull(4, Types.NULL);
+			
 			stmt.executeUpdate();
 			ResultSet rs = stmt.getGeneratedKeys();
 			while (rs.next())

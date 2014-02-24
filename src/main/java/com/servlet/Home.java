@@ -1,8 +1,6 @@
 package com.servlet;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,8 +13,6 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
 import com.dto.ComputerDTO;
-import com.dto.MapComputer;
-import com.om.Computer;
 import com.services.ComputerService;
 import com.servlet.wrapper.PageWrapper;
 

@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.dao.CompanyDAO;
-import com.dao.DAOfactory;
 import com.om.Company;
 import com.om.Computer;
 
@@ -30,19 +28,20 @@ public class MapComputer {
 			c.setIntroduced(d);
 		} catch (ParseException e1) {
 			c.setIntroduced(new Timestamp(0));
-			e1.printStackTrace();
 		}
 		
 		try {
-
-			Date d = dateFormat.parse(cDTO.getIntroduced());
+			Date d = dateFormat.parse(cDTO.getDiscontinued());
 			c.setDiscontinued(d);
 		} catch (ParseException e1) {
 			c.setDiscontinued(new Timestamp(0));
-			e1.printStackTrace();
 		}
 		Company comp = new Company();
-		comp.setId(Integer.valueOf(cDTO.getCompanyId()));
+		try{
+			comp.setId(Integer.valueOf(cDTO.getCompanyId()));
+		} catch (NumberFormatException e){
+			
+		}
 		if( cDTO.getCompanyName() != null)
 			comp.setName(cDTO.getCompanyName());	
 		c.setCompany(comp);
