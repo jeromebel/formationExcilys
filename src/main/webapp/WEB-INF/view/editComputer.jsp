@@ -16,6 +16,7 @@
 			</div>
 		</div>
 	</c:if>
+
 	<form action="EditComputer" class="formular" method="POST">
 		<fieldset>
 			<%-- 			<input type="text" name="computerId" value='${computerEdit.id}' style="visibility:hidden"> --%>

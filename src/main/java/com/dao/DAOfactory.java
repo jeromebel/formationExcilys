@@ -11,8 +11,6 @@ import com.jolbox.bonecp.BoneCPConfig;
 
 public enum DAOfactory {	
 	INSTANCE;
-	private ComputerDAO computerDao ;
-	private CompanyDAO  companyDao  ;
 	private LogDAO 		 logDao;
 	private BoneCP connectionPool;
 	
@@ -25,8 +23,6 @@ public enum DAOfactory {
 	private String passwd = "admin";
 	
 	private DAOfactory(){
-		computerDao = new ComputerDAO();
-		companyDao  = new CompanyDAO();
 		logDao		= new LogDAO();
 		tlConnection = new ThreadLocal<Connection>();
 		
@@ -62,15 +58,7 @@ public enum DAOfactory {
 	public LogDAO getLogDAO(){
 		return logDao;
 	}
-	
-	public ComputerDAO getComputerDAO(){
-		return computerDao;
-	}
-	
-	public CompanyDAO getCompanyDAO(){
-		return companyDao;
-	}
-	
+		
 	public void startTransaction(){
 		
 		try {
