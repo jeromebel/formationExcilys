@@ -48,9 +48,8 @@ public class EditComputer extends HttpServlet {
 		request.setAttribute("companies", companies);
 				
 		Computer c = computerService.readFilterByID(Long.valueOf(id));
-		ComputerDTO cDTO = MapComputer.computerToDTO(c);
 		
-		model.addAttribute("computerEdit", cDTO);
+		model.addAttribute("computerEdit", c);
 		model.addAttribute("companyId", c.getCompany().getId());
 		
 		return "editComputer";
@@ -58,34 +57,25 @@ public class EditComputer extends HttpServlet {
 
 	@RequestMapping(method = RequestMethod.POST)
 	protected String doPost(ModelMap model, HttpServletRequest request ,
-			@Valid ComputerDTO computerDto, BindingResult result) {
+			@Valid Computer computerEdit, BindingResult result) {
 		String computerId = request.getParameter("computerId");
-		computerDto.setId(computerId);
-
-		Boolean formValid = true;
-		StringBuilder message = new StringBuilder();
-		
-		if (result.hasErrors()) {
-			formValid = false;
-			message.append("Computer Name "+ result.getAllErrors().get(0).getDefaultMessage());
-		}
+		computerEdit.setId(Integer.valueOf(computerId));
 					
-		if(formValid){
+		if(!result.hasErrors()){
 			
-			computerService.update(MapComputer.dtoToComputer(computerDto));
+			computerService.update(computerEdit);
 			
 			Computer computerChanged = computerService.readFilterByID(Long.valueOf(computerId));		
-			computerDto = MapComputer.computerToDTO(computerChanged);
 			
 			List<ComputerDTO> computerDTOs = new ArrayList<ComputerDTO>();
-			computerDTOs.add(computerDto);
+			computerDTOs.add(MapComputer.computerToDTO(computerChanged));
 			
 			PageWrapper<ComputerDTO> page = new PageWrapper<ComputerDTO>();
 			page.setPageNumber(1);
 			page.setComputerPerPage(20);
 			page.setOrderDirection("ASC");
 			page.setOrderedBy("c.id");
-			page.setFilterName(computerDto.getName());
+			page.setFilterName(computerEdit.getName());
 			
 			computerService.readFilterByName(page);
 			
@@ -99,19 +89,16 @@ public class EditComputer extends HttpServlet {
 			return "dashboard";	
 		}
 		else {
-			Computer c = computerService.readFilterByID(Long.valueOf(computerDto.getCompanyId()));
-			computerDto = MapComputer.computerToDTO(c);
-			request.setAttribute("computerEdit", computerDto);
-			request.setAttribute("companyId", c.getCompany().getId());
+			
+			model.addAttribute("computerEdit", computerEdit);
+			model.addAttribute("companyId", computerEdit.getCompany().getId());
 			
 			List<Company> companies = companyService.readAll();
 			model.addAttribute("companies", companies);
 			
+			return "editComputer";
+			
 		}
-		
-		model.addAttribute("error", formValid);
-		model.addAttribute("message", message.toString());
-		return "editComputer";
 		
 	}
 

@@ -1,7 +1,11 @@
 package com.om;
 
-import java.util.Date;
 
+import javax.validation.constraints.Past;
+
+import org.hibernate.validator.constraints.NotEmpty;
+import org.joda.time.DateTime;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -10,21 +14,25 @@ public class Computer{
 	
 	private long id;
 	private Company company;
+	@NotEmpty
 	private String name;
-	private Date introduced;
-	private Date discontinued;
-		
+	@DateTimeFormat(pattern="yyyy-mm-dd")
+	@Past
+	private DateTime introduced;
+	@DateTimeFormat(pattern="yyyy-mm-dd")
+	@Past
+	private DateTime discontinued;
 	
-	public Date getIntroduced() {
+	public DateTime getIntroduced() {
 		return introduced;
 	}
-	public void setIntroduced(Date introduced) {		
+	public void setIntroduced(DateTime introduced) {
 		this.introduced = introduced;
 	}
-	public Date getDiscontinued() {
+	public DateTime getDiscontinued() {
 		return discontinued;
 	}
-	public void setDiscontinued(Date discontinued) {
+	public void setDiscontinued(DateTime discontinued) {
 		this.discontinued = discontinued;
 	}
 	public Company getCompany() {

@@ -4,9 +4,11 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,23 +27,12 @@ public class MapComputer {
 		if(cDTO.getName() != null)
 			c.setName(cDTO.getName());
 		
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
-
-		try {
-			Date d = dateFormat.parse(cDTO.getIntroduced());
-			c.setIntroduced(d);
-		} catch (ParseException e1) {
-			c.setIntroduced(null);
-			logger.debug("Introduced Date invalide format or null");
-		}
+		DateTime d = new DateTime( cDTO.getIntroduced() );
+		c.setIntroduced(d);
 		
-		try {
-			Date d = dateFormat.parse(cDTO.getDiscontinued());
-			c.setDiscontinued(d);
-		} catch (ParseException e1) {
-			c.setDiscontinued(null);
-			logger.debug("Discontinued Date invalide format or null");
-		}
+		d = new DateTime(cDTO.getDiscontinued());		
+		c.setDiscontinued(d);
+		
 		Company comp = new Company();
 		try{
 			comp.setId(Integer.valueOf(cDTO.getCompanyId()));
@@ -66,13 +57,12 @@ public class MapComputer {
 		cDTO.setCompanyName(c.getCompany().getName());
 		cDTO.setName(c.getName());
 		
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		if (c.getIntroduced() != null)
-			cDTO.setIntroduced(dateFormat.format(c.getIntroduced()));
+			cDTO.setIntroduced(c.getIntroduced().toString("yyyy-MM-dd" ));
 		else
 			cDTO.setIntroduced("inconnue");
 		if (c.getDiscontinued() != null)
-			cDTO.setDiscontinued(dateFormat.format(c.getDiscontinued()));
+			cDTO.setDiscontinued(c.getDiscontinued().toString("yyyy-MM-dd" ));
 		else
 			cDTO.setDiscontinued("inconnue");
 		return cDTO;

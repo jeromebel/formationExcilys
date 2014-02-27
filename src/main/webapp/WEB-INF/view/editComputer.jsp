@@ -1,28 +1,20 @@
 <jsp:include page="../../include/header.jsp" />
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <?xml version="1.0" encoding="UTF-8" ?>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
 <section id="main">
 
-	<h1>Edit Computer</h1>
-	<c:if test="${error == true }">
-
-		<div class="ui-widget">
-			<div class="ui-state-error ui-corner-all">
-				<span class="ui-icon ui-icon-alert"
-					style="float: left; margin-right: .3em;"></span> ${message}
-			</div>
-		</div>
-	</c:if>
+	<h1><spring:message code="label.header.editcomputer"></spring:message></h1>
 
 	<form:form commandName="computerEdit" action="EditComputer" method="POST">
+		<form:errors path="*" cssClass="ui-state-error ui-corner-all" element="div" />
 		<fieldset>
-			<%-- 			<input type="text" name="computerId" value='${computerEdit.id}' style="visibility:hidden"> --%>
 			<div class="clearfix">
-				<label for="name">Computer name:</label>
+				<label for="name"><spring:message code="label.table.header.computer"></spring:message>:</label>
 				<div class="input">
 					<form:input path="name" value='${computerEdit.name}'
 					data-validation="required" 
@@ -32,7 +24,7 @@
 			</div>
 
 			<div class="clearfix">
-				<label for="introduced">Introduced date:</label>
+				<label for="introduced"><spring:message code="label.table.header.introduced"></spring:message>:</label>
 				<div class="input">
 					<form:input path="introduced"
 						value='${computerEdit.introduced}' 
@@ -44,9 +36,9 @@
 				</div>
 			</div>
 			<div class="clearfix">
-				<label for="discontinued">Discontinued date:</label>
+				<label for="discontinued"><spring:message code="label.table.header.discontinued"></spring:message>:</label>
 				<div class="input">
-					<form:input  path="discontinued"
+					<form:input path="discontinued"
 						value='${computerEdit.discontinued}' 
 						data-validation="date"
 						data-validation-format="yyyy-mm-dd"
@@ -57,9 +49,9 @@
 			</div>
 
 			<div class="clearfix">
-				<label for="company">Company Name:</label>
+				<label for="company"><spring:message code="label.table.header.company"></spring:message>:</label>
 				<div class="input">
-					<form:select path="companyId">
+					<form:select path="company.id">
 						<option value="0">--</option>						
 						<c:forEach var="c" items="${companies}">
 							<c:choose>
@@ -79,10 +71,9 @@
 		<div class="actions">
 			<button type="submit" name="computerId" value="${computerEdit.id}"
 				class="btn primary">
-				<i class="icon icon-cross"></i>Edit
+				<spring:message code="label.buttonedit"></spring:message>
 			</button>
-			<!-- 			<input type="submit" name="computerId" value='Edit' class="btn primary"> -->
-			or <a href="Home" class="btn">Cancel</a>
+			<a href="Home" class="btn"><spring:message code="label.buttoncancel"></spring:message></a>
 		</div>
 	</form:form>
 </section>
@@ -92,9 +83,9 @@
 	$('.datepicker').datepicker("option", "dateFormat", "yy-mm-dd");
 	$('.datepicker').datepicker("option", "changeYear", true);
 	
-	$.validate({
-		addValidClassOnAll : true
-	});
+// 	$.validate({
+// 		addValidClassOnAll : true
+// 	});
 </script>
 
 <jsp:include page="../../include/footer.jsp" />

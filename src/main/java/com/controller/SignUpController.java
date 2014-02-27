@@ -1,11 +1,14 @@
 package com.controller;
 
 import javax.validation.Valid;
+
+import org.joda.time.DateTime;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
 import com.om.Customer;
 
 @Controller
@@ -31,6 +34,8 @@ public class SignUpController {
 	public String displayCustomerForm(ModelMap model) {
 		Customer c = new Customer();
 		c.setName("Frank");
+		c.setAge(12);
+		c.setDateOfAdd(new DateTime());
 		model.addAttribute("customer", c);
 		return "hello";
  

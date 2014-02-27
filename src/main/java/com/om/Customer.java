@@ -2,8 +2,12 @@ package com.om;
 
 
 
+import javax.validation.constraints.Past;
+
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Range;
+import org.joda.time.DateTime;
+import org.springframework.format.annotation.DateTimeFormat;
  
 public class Customer {
  
@@ -13,14 +17,16 @@ public class Customer {
 	@Range(min = 1, max = 150) //age need between 1 and 150
 	private int age;
 	
-	private String dateOfAdd; 
+	@DateTimeFormat(pattern="yyyy-mm-dd")
+	@Past
+	private DateTime dateOfAdd; 
 	
 	
-	public String getDateOfAdd() {
+	public DateTime getDateOfAdd() {
 		return dateOfAdd;
 	}
 
-	public void setDateOfAdd(String date) {
+	public void setDateOfAdd(DateTime date) {
 		this.dateOfAdd = date;
 	}
 

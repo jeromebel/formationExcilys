@@ -17,13 +17,13 @@
 </head>
 <body>
 	<header class="topbar">
-		<h1 class="fill">
-			<a href="index.jsp"> Application - Computer Database </a>
-		</h1>
-		<h3>
-			<a href="?lang=en">EN</a>
-			<a href="?lang=fr">FR</a>
-			<a href="?lang=de">DE</a>
-		</h3>
+		<div>
+			<h1 class="fill">			
+				<a href="index.jsp"> Application - Computer Database </a>
+				<a href="?lang=en">EN</a>
+				<a href="?lang=fr">FR</a>
+				<a href="?lang=de">DE</a>
+			</h1>			
+		</div>
 	</header>
 </body>

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.dto.ComputerDTO;
 import com.dto.MapComputer;
 import com.om.Company;
+import com.om.Computer;
 import com.services.CompanyService;
 import com.services.ComputerService;
 import com.servlet.wrapper.PageWrapper;
@@ -38,23 +39,16 @@ public class AddComputer {
 	@RequestMapping(method = RequestMethod.GET)
 	protected String doGet(ModelMap model, HttpServletRequest request) {
 		List<Company> companies = companyService.readAll();
-		model.addAttribute("computerDTO", new ComputerDTO());
+		model.addAttribute("computer", new Computer());
 		model.addAttribute("companies", companies);
 		return "addComputer";
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
 	protected String doPost(ModelMap model, HttpServletRequest request,
-			@Valid ComputerDTO computerDto, BindingResult result) {
-		Boolean formValid = true;
-		StringBuilder message = new StringBuilder();
+			@Valid Computer computer, BindingResult result) {
 
-		if (result.hasErrors()) {
-			formValid = false;
-			message.append("Computer Name "+ result.getAllErrors().get(0).getDefaultMessage());
-		}
-
-		if (formValid) {
+		if (!result.hasErrors()) {
 
 			HttpSession s = request.getSession();
 			PageWrapper<ComputerDTO> page = new PageWrapper<ComputerDTO>();
@@ -67,9 +61,9 @@ public class AddComputer {
 				page.setOrderDirection("ASC");
 			}
 
-			page.setFilterName(computerDto.getName());
+			page.setFilterName(computer.getName());
 
-			computerService.create(MapComputer.dtoToComputer(computerDto));
+			computerService.create(computer);
 			computerService.readFilterByName(page);
 
 			page.setNumberOfPages((Integer) (page.getResults().size())
@@ -80,11 +74,7 @@ public class AddComputer {
 			model.addAttribute("pageData", page);
 			return "dashboard";
 		} else {
-			List<Company> companies = companyService.readAll();
-			model.addAttribute("companies", companies);
-			model.addAttribute("error", true);
-			model.addAttribute("message", message.toString());
-
+			model.addAttribute("computer", computer);
 			return "addComputer";
 		}
 

@@ -7,9 +7,9 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -204,11 +204,11 @@ public class ComputerDAOImpl implements ComputerDAO {
 		stmt.setString(1, c.getName());
 		stmt.setString(1, c.getName());
 		if (c.getIntroduced() != null)
-			stmt.setTimestamp(2, new Timestamp(c.getIntroduced().getTime()));
+			stmt.setTimestamp(2, new Timestamp(c.getIntroduced().getMillis()));
 		else
 			stmt.setNull(2 , Types.TIMESTAMP);
 		if (c.getDiscontinued() != null)
-			stmt.setTimestamp(3, new Timestamp(c.getDiscontinued().getTime()));
+			stmt.setTimestamp(3, new Timestamp(c.getDiscontinued().getMillis()));
 		else
 			stmt.setNull(3 , Types.TIMESTAMP);
 		if ((c.getCompany() != null) && (c.getCompany().getId() != 0))
@@ -244,11 +244,11 @@ public class ComputerDAOImpl implements ComputerDAO {
 				PreparedStatement.RETURN_GENERATED_KEYS);
 		stmt.setString(1, c.getName());
 		if (c.getIntroduced() != null)
-			stmt.setTimestamp(2, new Timestamp(c.getIntroduced().getTime()));
+			stmt.setTimestamp(2, new Timestamp(c.getIntroduced().getMillis()));
 		else
 			stmt.setNull(2 , Types.TIMESTAMP);
 		if (c.getDiscontinued() != null)
-			stmt.setTimestamp(3, new Timestamp(c.getDiscontinued().getTime()));
+			stmt.setTimestamp(3, new Timestamp(c.getDiscontinued().getMillis()));
 		else
 			stmt.setNull(3 , Types.TIMESTAMP);
 		if ((c.getCompany() != null) && (c.getCompany().getId() != 0))
@@ -290,12 +290,12 @@ public class ComputerDAOImpl implements ComputerDAO {
 			if (rs.getTimestamp(4) == null)
 				c.setIntroduced(null);
 			else
-				c.setIntroduced(new Date(rs.getTimestamp(4).getTime()));
+				c.setIntroduced(new DateTime(rs.getTimestamp(4)));
 
 			if (rs.getTimestamp(5) == null)
 				c.setDiscontinued(null);
 			else
-				c.setDiscontinued(new Date(rs.getTimestamp(5).getTime()));
+				c.setDiscontinued(new DateTime(rs.getTimestamp(5)));
 			allComputers.add(c);
 		}
 

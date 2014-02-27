@@ -1,6 +1,6 @@
 <jsp:include page="../../include/header.jsp" />
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <?xml version="1.0" encoding="UTF-8" ?>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="h"%>
@@ -11,10 +11,13 @@
 	<div id="actions">
 		<form action="Home" method="GET">
 			<input type="search" id="searchbox" name="filterName" value=""
-				placeholder="Search name"><input type="submit"
-				id="searchsubmit" value="Filter by name" class="btn primary">
+				placeholder="Search name">
+				<button type="submit"  class="btn primary">
+				<span class="ui-icon ui-icon-search" style="float: left; margin-right: .3em;"></span>
+				<spring:message code="label.buttonsearch"></spring:message>
+			</button>
 		</form>
-		<a class="btn success" id="add" href="AddComputer">Add Computer</a>
+		<a class="btn success" id="add" href="AddComputer"><spring:message code="label.buttonaddcomputer"></spring:message></a>
 	</div>
 
 	<div class="pagination">
@@ -26,7 +29,7 @@
 	<form action="Home" method="GET">
 		<div class="actions">
 			<div class="clearfix">
-				<label for="computerPerPage">Computer per Page:</label>
+				<label for="computerPerPage"><spring:message code="label.computersperpage"></spring:message>:</label>
 				<div class="input">
 					<select name="computersPerPage">
 						<option selected value="${pageData.computerPerPage }">${pageData.computerPerPage }</option>
@@ -45,7 +48,7 @@
 
 			<button type="submit" name="pageNum" value="${pageData.pageNumber}"
 				class="btn primary">
-				<i class="icon icon-cross"></i>Valid
+				<spring:message code="label.buttonvalid"></spring:message>
 			</button>
 		</div>
 	</form>
@@ -56,12 +59,12 @@
 			<tr>
 				<!-- Variable declarations for passing labels as parameters -->
 				<!-- Table header for Computer Name -->
-				<th style="width:20%;"><h:OrderByLink pageData="${pageData }" field="c.name" text="Computer name"></h:OrderByLink></th>
-				<th style="width:20%;"><h:OrderByLink pageData="${pageData }" field="c.introduced" text="Introduced Date"></h:OrderByLink> </th>
-				<th style="width:20%;"><h:OrderByLink pageData="${pageData }" field="c.discontinued" text="Discontinued Date"></h:OrderByLink></th>
-				<th style="width:20%;"><h:OrderByLink pageData="${pageData }" field="f.name" text="Company"></h:OrderByLink></th>
-				<th>Edit</th>
-				<th>Delete</th>
+				<th style="width:20%;"><h:OrderByLink pageData="${pageData }" field="c.name" ></h:OrderByLink></th>
+				<th style="width:20%;"><h:OrderByLink pageData="${pageData }" field="c.introduced" ></h:OrderByLink> </th>
+				<th style="width:20%;"><h:OrderByLink pageData="${pageData }" field="c.discontinued" ></h:OrderByLink></th>
+				<th style="width:20%;"><h:OrderByLink pageData="${pageData }" field="f.name" ></h:OrderByLink></th>
+				<th><spring:message code="label.buttonedit"></spring:message></th>
+				<th><spring:message code="label.buttondelete"></spring:message></th>
 			</tr>
 
 		</thead>
@@ -76,7 +79,7 @@
 					<td>
 						<form method="GET" action="EditComputer">
 							<button type="submit" name="idComputer" value="${computerDTO.id}"
-								class="btn btn-sm">
+								class="btn btn-xs">
 								<span class="ui-icon ui-icon-pencil"
 									style="float: left; margin-right: .3em;"></span>
 							</button>
@@ -85,7 +88,7 @@
 					<td>
 						<form method="GET" action="DeleteComputer">
 							<button type="submit" name="idComputer" value="${computerDTO.id}"
-								class="btn btn-sm">
+								class="btn btn-xs">
 								<span class="ui-icon ui-icon-close"
 									style="float: left; margin-right: .3em;"></span>
 							</button>
