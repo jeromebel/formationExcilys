@@ -16,7 +16,7 @@
 			<div class="clearfix">
 				<label for="name"><spring:message code="label.table.header.computer"></spring:message>:</label>
 				<div class="input">
-					<form:input path="name" value='${computerEdit.name}'
+					<form:input path="name"
 					data-validation="required" 
 					data-validation-error-msg="Is required"/>
 					<span class="help-inline">Required</span>
@@ -27,7 +27,6 @@
 				<label for="introduced"><spring:message code="label.table.header.introduced"></spring:message>:</label>
 				<div class="input">
 					<form:input path="introduced"
-						value='${computerEdit.introduced}' 
 						data-validation="date"
 						data-validation-format="yyyy-mm-dd"
 						data-validation-optional="true"
@@ -39,7 +38,6 @@
 				<label for="discontinued"><spring:message code="label.table.header.discontinued"></spring:message>:</label>
 				<div class="input">
 					<form:input path="discontinued"
-						value='${computerEdit.discontinued}' 
 						data-validation="date"
 						data-validation-format="yyyy-mm-dd"
 						data-validation-optional="true"
@@ -83,9 +81,9 @@
 	$('.datepicker').datepicker("option", "dateFormat", "yy-mm-dd");
 	$('.datepicker').datepicker("option", "changeYear", true);
 	
-// 	$.validate({
-// 		addValidClassOnAll : true
-// 	});
+	$.validate({
+		addValidClassOnAll : true
+	});
 </script>
 
 <jsp:include page="../../include/footer.jsp" />

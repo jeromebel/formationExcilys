@@ -6,7 +6,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
-
 <section id="main">
 
 	<h1><spring:message code="label.header.addcomputer"></spring:message></h1>
@@ -70,9 +69,9 @@
 	$('.datepicker').datepicker("option", "dateFormat", "yy-mm-dd");
 	$('.datepicker').datepicker("option", "changeYear", true);
 	
-// 	$.validate({
-// 		addValidClassOnAll : true
-// 	});
+	$.validate({
+		addValidClassOnAll : true
+	});
 </script>
 
 <jsp:include page="../../include/footer.jsp" />

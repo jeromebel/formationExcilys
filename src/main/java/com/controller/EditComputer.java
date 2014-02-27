@@ -14,6 +14,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.dto.ComputerDTO;
 import com.dto.MapComputer;
@@ -57,7 +58,8 @@ public class EditComputer extends HttpServlet {
 
 	@RequestMapping(method = RequestMethod.POST)
 	protected String doPost(ModelMap model, HttpServletRequest request ,
-			@Valid Computer computerEdit, BindingResult result) {
+			@Valid Computer computerEdit, BindingResult result,
+			final RedirectAttributes redirectAttributes) {
 		String computerId = request.getParameter("computerId");
 		computerEdit.setId(Integer.valueOf(computerId));
 					
@@ -84,9 +86,8 @@ public class EditComputer extends HttpServlet {
 			HttpSession s = request.getSession();
 			s.setAttribute("pageData" , page);
 			
-			model.addAttribute("pageData",page);
-						
-			return "dashboard";	
+			redirectAttributes.addFlashAttribute("pageData", page);			
+			return "redirect:Home";	
 		}
 		else {
 			

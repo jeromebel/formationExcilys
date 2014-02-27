@@ -38,13 +38,12 @@ public class DeleteComputer {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-	protected String doPost(ModelMap model, HttpServletRequest request) {
+	protected String doPost(ModelMap model , HttpServletRequest request) {
 		String computerId   = request.getParameter("computerId");
 				
 		computerService.delete(computerId);
 		
-		model.addAttribute("message", "Delete done");
-		
+		model.addAttribute("delete", true);		
 		return "confirmationDeleteComputer";				
 	}
 
