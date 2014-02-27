@@ -23,7 +23,9 @@ import com.servlet.wrapper.PageWrapper;
 public class ComputerDAOImpl implements ComputerDAO {
 	final Logger log = LoggerFactory.getLogger(ComputerDAOImpl.class);
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.dao.ComputerDAO#readTotalCount()
 	 */
 	@Override
@@ -45,7 +47,9 @@ public class ComputerDAOImpl implements ComputerDAO {
 		return null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.dao.ComputerDAO#readTotalCountFilterByName(java.lang.String)
 	 */
 	@Override
@@ -71,7 +75,9 @@ public class ComputerDAOImpl implements ComputerDAO {
 		return null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.dao.ComputerDAO#readByPage(com.servlet.wrapper.PageWrapper)
 	 */
 	@Override
@@ -97,8 +103,11 @@ public class ComputerDAOImpl implements ComputerDAO {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see com.dao.ComputerDAO#readFilterByName(com.servlet.wrapper.PageWrapper)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.dao.ComputerDAO#readFilterByName(com.servlet.wrapper.PageWrapper)
 	 */
 	@Override
 	public List<Computer> readFilterByName(PageWrapper<ComputerDTO> page)
@@ -128,7 +137,9 @@ public class ComputerDAOImpl implements ComputerDAO {
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.dao.ComputerDAO#readFilterByID(java.lang.Long)
 	 */
 	@Override
@@ -150,7 +161,9 @@ public class ComputerDAOImpl implements ComputerDAO {
 		return computers.get(0);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.dao.ComputerDAO#delete(java.lang.String)
 	 */
 	@Override
@@ -168,11 +181,15 @@ public class ComputerDAOImpl implements ComputerDAO {
 		stmt.setInt(1, Integer.valueOf(id));
 		stmt.executeUpdate();
 
+		log.info("Computer num " + id + " well deleted");
+
 		if (stmt != null)
 			stmt.close();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.dao.ComputerDAO#update(com.om.Computer)
 	 */
 	@Override
@@ -185,19 +202,33 @@ public class ComputerDAOImpl implements ComputerDAO {
 				+ " name= ?," + " introduced= ?," + " discontinued= ?,"
 				+ " company_id= ?" + " WHERE id= ?");
 		stmt.setString(1, c.getName());
-		stmt.setTimestamp(2, new Timestamp(c.getIntroduced().getTime()));
-		stmt.setTimestamp(3, new Timestamp(c.getDiscontinued().getTime()));
-		stmt.setInt(4, c.getCompany().getId());
+		stmt.setString(1, c.getName());
+		if (c.getIntroduced() != null)
+			stmt.setTimestamp(2, new Timestamp(c.getIntroduced().getTime()));
+		else
+			stmt.setNull(2 , Types.TIMESTAMP);
+		if (c.getDiscontinued() != null)
+			stmt.setTimestamp(3, new Timestamp(c.getDiscontinued().getTime()));
+		else
+			stmt.setNull(3 , Types.TIMESTAMP);
+		if ((c.getCompany() != null) && (c.getCompany().getId() != 0))
+			stmt.setInt(4, c.getCompany().getId());
+		else
+			stmt.setNull(4, Types.BIGINT);
 		stmt.setLong(5, c.getId());
 
 		stmt.executeUpdate();
+
+		log.info("Computer num " + c.getId() + " well Update");
 
 		if (stmt != null)
 			stmt.close();
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.dao.ComputerDAO#create(com.om.Computer)
 	 */
 	@Override
@@ -206,34 +237,34 @@ public class ComputerDAOImpl implements ComputerDAO {
 		Connection cn = null;
 		PreparedStatement stmt = null;
 
-			cn = DAOfactory.INSTANCE.getConnexion();
-			stmt = (PreparedStatement) cn.prepareStatement(
-					"INSERT INTO computer (name , introduced , discontinued , company_id) "
-							+ "VALUES(?,?,?,?)",
-					PreparedStatement.RETURN_GENERATED_KEYS);
-			stmt.setString(1, c.getName());
-			if (c.getIntroduced() != null)
-				stmt.setTimestamp(2, new Timestamp(c.getIntroduced().getTime()));
-			else
-				stmt.setTimestamp(2, new Timestamp(0));
-			if(c.getDiscontinued() != null)
-				stmt.setTimestamp(3, new Timestamp(c.getDiscontinued().getTime()));
-			else
-				stmt.setTimestamp(3, new Timestamp(0));	
-			if ((c.getCompany() != null) && (c.getCompany().getId() != 0))
-				stmt.setInt(4, c.getCompany().getId());
-			else
-				stmt.setNull(4, Types.NULL);
-			
-			stmt.executeUpdate();
-			ResultSet rs = stmt.getGeneratedKeys();
-			while (rs.next())
-				c.setId(rs.getLong(1));
+		cn = DAOfactory.INSTANCE.getConnexion();
+		stmt = (PreparedStatement) cn.prepareStatement(
+				"INSERT INTO computer (name , introduced , discontinued , company_id) "
+						+ "VALUES(?,?,?,?)",
+				PreparedStatement.RETURN_GENERATED_KEYS);
+		stmt.setString(1, c.getName());
+		if (c.getIntroduced() != null)
+			stmt.setTimestamp(2, new Timestamp(c.getIntroduced().getTime()));
+		else
+			stmt.setNull(2 , Types.TIMESTAMP);
+		if (c.getDiscontinued() != null)
+			stmt.setTimestamp(3, new Timestamp(c.getDiscontinued().getTime()));
+		else
+			stmt.setNull(3 , Types.TIMESTAMP);
+		if ((c.getCompany() != null) && (c.getCompany().getId() != 0))
+			stmt.setInt(4, c.getCompany().getId());
+		else
+			stmt.setNull(4, Types.BIGINT);
 
+		stmt.executeUpdate();
+		ResultSet rs = stmt.getGeneratedKeys();
+		while (rs.next())
+			c.setId(rs.getLong(1));
 
-				if (stmt != null)
-					stmt.close();
+		log.info("Computer num " + c.getId() + " well created");
 
+		if (stmt != null)
+			stmt.close();
 
 	}
 

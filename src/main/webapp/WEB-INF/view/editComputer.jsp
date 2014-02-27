@@ -3,6 +3,7 @@
 	pageEncoding="ISO-8859-1"%>
 <?xml version="1.0" encoding="UTF-8" ?>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <section id="main">
 
@@ -17,15 +18,15 @@
 		</div>
 	</c:if>
 
-	<form action="EditComputer" class="formular" method="POST">
+	<form:form commandName="computerEdit" action="EditComputer" method="POST">
 		<fieldset>
 			<%-- 			<input type="text" name="computerId" value='${computerEdit.id}' style="visibility:hidden"> --%>
 			<div class="clearfix">
 				<label for="name">Computer name:</label>
 				<div class="input">
-					<input type="text" name="computerName" value='${computerEdit.name}'
+					<form:input path="name" value='${computerEdit.name}'
 					data-validation="required" 
-					data-validation-error-msg="Is required">
+					data-validation-error-msg="Is required"/>
 					<span class="help-inline">Required</span>
 				</div>
 			</div>
@@ -33,7 +34,7 @@
 			<div class="clearfix">
 				<label for="introduced">Introduced date:</label>
 				<div class="input">
-					<input type="text" name="introducedDate"
+					<form:input path="introduced"
 						value='${computerEdit.introduced}' 
 						data-validation="date"
 						data-validation-format="yyyy-mm-dd"
@@ -45,7 +46,7 @@
 			<div class="clearfix">
 				<label for="discontinued">Discontinued date:</label>
 				<div class="input">
-					<input  type="text" name="discontinuedDate"
+					<form:input  path="discontinued"
 						value='${computerEdit.discontinued}' 
 						data-validation="date"
 						data-validation-format="yyyy-mm-dd"
@@ -58,7 +59,7 @@
 			<div class="clearfix">
 				<label for="company">Company Name:</label>
 				<div class="input">
-					<select name="company">
+					<form:select path="companyId">
 						<option value="0">--</option>						
 						<c:forEach var="c" items="${companies}">
 							<c:choose>
@@ -70,7 +71,7 @@
 								</c:otherwise>
 							</c:choose>							
 						</c:forEach>
-					</select>
+					</form:select>
 				</div>
 			</div>
 
@@ -83,7 +84,7 @@
 			<!-- 			<input type="submit" name="computerId" value='Edit' class="btn primary"> -->
 			or <a href="Home" class="btn">Cancel</a>
 		</div>
-	</form>
+	</form:form>
 </section>
 
 <script type="text/javascript">

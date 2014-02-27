@@ -1,9 +1,12 @@
 package com.dto;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class ComputerDTO {
 	private String id;
 	private String companyName;
 	private String companyId;
+	@NotEmpty
 	private String name;
 	private String introduced;
 	private String discontinued;

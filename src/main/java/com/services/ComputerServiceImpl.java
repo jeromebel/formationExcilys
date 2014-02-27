@@ -72,6 +72,7 @@ public class ComputerServiceImpl implements ComputerService{
 			DAOfactory.INSTANCE.startTransaction();
 			Computer result;
 			result = computerDAO.readFilterByID(id);
+			result.setId(id);
 
 			DAOfactory.INSTANCE.endTransaction();
 			return result;

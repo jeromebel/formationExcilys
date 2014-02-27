@@ -7,10 +7,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.om.Company;
 import com.om.Computer;
 
 public class MapComputer {
+	final static Logger logger = LoggerFactory.getLogger(MapComputer.class);
 
 	public static Computer dtoToComputer(ComputerDTO cDTO){
 		Computer c = new Computer();
@@ -27,20 +31,23 @@ public class MapComputer {
 			Date d = dateFormat.parse(cDTO.getIntroduced());
 			c.setIntroduced(d);
 		} catch (ParseException e1) {
-			c.setIntroduced(new Timestamp(0));
+			c.setIntroduced(null);
+			logger.debug("Introduced Date invalide format or null");
 		}
 		
 		try {
 			Date d = dateFormat.parse(cDTO.getDiscontinued());
 			c.setDiscontinued(d);
 		} catch (ParseException e1) {
-			c.setDiscontinued(new Timestamp(0));
+			c.setDiscontinued(null);
+			logger.debug("Discontinued Date invalide format or null");
 		}
 		Company comp = new Company();
 		try{
 			comp.setId(Integer.valueOf(cDTO.getCompanyId()));
 		} catch (NumberFormatException e){
-			
+			comp.setId(0);
+			logger.debug("Company Id invalid");
 		}
 		if( cDTO.getCompanyName() != null)
 			comp.setName(cDTO.getCompanyName());	

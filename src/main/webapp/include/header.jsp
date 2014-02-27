@@ -20,5 +20,10 @@
 		<h1 class="fill">
 			<a href="index.jsp"> Application - Computer Database </a>
 		</h1>
+		<h3>
+			<a href="?lang=en">EN</a>
+			<a href="?lang=fr">FR</a>
+			<a href="?lang=de">DE</a>
+		</h3>
 	</header>
 </body>

@@ -4,9 +4,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="h"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
 <section id="main">
-	<h1 id="homeTitle">${pageData.totalNumberOfRecords} Computers found</h1>
+	<h1 id="homeTitle">${pageData.totalNumberOfRecords} <spring:message code="label.datafound"></spring:message> </h1>
 	<div id="actions">
 		<form action="Home" method="GET">
 			<input type="search" id="searchbox" name="filterName" value=""
@@ -22,7 +23,7 @@
 	</div> 
 
 
-	<form action="Home" class="formular" method="GET">
+	<form action="Home" method="GET">
 		<div class="actions">
 			<div class="clearfix">
 				<label for="computerPerPage">Computer per Page:</label>
