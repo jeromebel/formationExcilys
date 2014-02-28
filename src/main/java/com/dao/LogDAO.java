@@ -16,7 +16,7 @@ public class LogDAO {
 		Connection cn = null;
 		PreparedStatement stmt = null;
 		try {
-			cn = DAOfactory.INSTANCE.getConnexion();
+			cn = DAOfactory.INSTANCE.getConnection();
 			stmt = (PreparedStatement) cn
 					.prepareStatement("INSERT INTO log (description , computer_id )"
 							+ "VALUES(?,?)",PreparedStatement.RETURN_GENERATED_KEYS);

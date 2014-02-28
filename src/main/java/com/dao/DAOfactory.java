@@ -3,82 +3,63 @@ package com.dao;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import org.apache.commons.dbcp.BasicDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.jolbox.bonecp.BoneCP;
-import com.jolbox.bonecp.BoneCPConfig;
-
-public enum DAOfactory {	
+public enum DAOfactory {
 	INSTANCE;
-	private LogDAO 		 logDao;
-	private BoneCP connectionPool;
-	
+	private LogDAO logDao;
+	private BasicDataSource source;
+
 	private ThreadLocal<Connection> tlConnection;
-	
+
 	final Logger LOG = LoggerFactory.getLogger(DAOfactory.class);
 
-	private String url = "jdbc:mysql://localhost:3306/computer-database-db?zeroDateTimeBehavior=convertToNull";
-	private String user = "root";
-	private String passwd = "admin";
-	
-	private DAOfactory(){
-		logDao		= new LogDAO();
+	final private String url = "jdbc:mysql://localhost:3306/computer-database-db?zeroDateTimeBehavior=convertToNull";
+	final private String user = "root";
+	final private String passwd = "admin";
+
+	private DAOfactory() {
+		logDao = new LogDAO();
 		tlConnection = new ThreadLocal<Connection>();
-		
-		try {
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			LOG.info("[BONECP]Connection successfully openned");
-		} catch (ClassNotFoundException CNFe) {
-			LOG.error("[CLASSNFEXCEPTION]");
-			CNFe.printStackTrace();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		}
-		BoneCPConfig config = new BoneCPConfig();
 
-		config.setJdbcUrl(url);
-		config.setUsername(user);
-		config.setPassword(passwd);
+		source = new BasicDataSource();
+		source.setDriverClassName("com.mysql.jdbc.Driver");
+		source.setUrl(url);
+		source.setUsername(user);
+		source.setPassword(passwd);
+		source.setMaxActive(10);
+		source.setInitialSize(5);
 
-		config.setMinConnectionsPerPartition(5);
-		config.setMaxConnectionsPerPartition(10);
-		config.setPartitionCount(1);
-		try {
-			connectionPool = new BoneCP(config);
-		} catch (SQLException e) {
-			LOG.error("[SQLEXCEPTION]");
-			e.printStackTrace();
-		}
-		
 	}
-	
-	public LogDAO getLogDAO(){
+
+	public LogDAO getLogDAO() {
 		return logDao;
 	}
-		
-	public void startTransaction(){
+
+	public void startTransaction() {
+
+		//récupération de la DataSource à partir du contexte
 		
 		try {
-			tlConnection.set(connectionPool.getConnection());
+			Connection c = source.getConnection();
+			tlConnection.set(c);
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			LOG.error("Problem to get connection in Start connection");
 		}
-		
+
 		try {
-			getConnexion().setAutoCommit(false);
+			getConnection().setAutoCommit(false);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
-	
-	public void endTransaction(){
-		Connection cn = getConnexion();
+
+	public void endTransaction() {
+		Connection cn = getConnection();
 		try {
 			cn.commit();
 			cn.setAutoCommit(true);
@@ -89,34 +70,34 @@ public enum DAOfactory {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void rollbackTransaction() {
-	    Connection cn = tlConnection.get();
-        if (cn != null) {
-            try {
-                cn.rollback();
-                cn.setAutoCommit(true);
-            } catch (SQLException e) {
-            	LOG.error("SQL error");
-            } finally {
-                try {
+		Connection cn = tlConnection.get();
+		if (cn != null) {
+			try {
+				cn.rollback();
+				cn.setAutoCommit(true);
+			} catch (SQLException e) {
+				LOG.error("SQL error");
+			} finally {
+				try {
 					cn.close();
 				} catch (SQLException e) {
 					LOG.warn("Problem to close connection");
 				}
-            }
-        }
+			}
+		}
 	}
-	
-	public Connection getConnexion() {	
-		LOG.info("[BONECP] RETURNING CONNECTION");
-		
-		if(tlConnection.get() == null) {
+
+	public Connection getConnection() {
+		LOG.info("RETURNING CONNECTION");
+
+		if (tlConnection.get() == null) {
 			LOG.error("ThreadLocal NULL");
 			return null;
-		} 
-		
-		return tlConnection.get();	
+		}
+
+		return tlConnection.get();
 	}
-	
+
 }

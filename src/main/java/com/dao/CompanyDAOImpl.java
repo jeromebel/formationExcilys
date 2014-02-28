@@ -30,7 +30,7 @@ public class CompanyDAOImpl implements CompanyDAO {
 		List<Company> companies = new ArrayList<Company>();
 		
 		try {
-			cn = DAOfactory.INSTANCE.getConnexion();
+			cn = DAOfactory.INSTANCE.getConnection();
 			stmt = (Statement) cn.createStatement();
 			rs = (ResultSet) stmt
 					.executeQuery("SELECT * FROM company ;");

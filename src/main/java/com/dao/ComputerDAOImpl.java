@@ -31,7 +31,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 	@Override
 	public Integer readTotalCount() throws SQLException {
 		PreparedStatement stmt = null;
-		Connection cn = DAOfactory.INSTANCE.getConnexion();
+		Connection cn = DAOfactory.INSTANCE.getConnection();
 
 		stmt = (PreparedStatement) cn.prepareStatement("SELECT COUNT(*) "
 				+ " FROM computer;");
@@ -55,7 +55,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 	@Override
 	public Integer readTotalCountFilterByName(String name) throws SQLException {
 		PreparedStatement stmt = null;
-		Connection cn = DAOfactory.INSTANCE.getConnexion();
+		Connection cn = DAOfactory.INSTANCE.getConnection();
 
 		stmt = (PreparedStatement) cn
 				.prepareStatement("SELECT COUNT(*) "
@@ -84,7 +84,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 	public List<Computer> readByPage(PageWrapper<ComputerDTO> page)
 			throws SQLException {
 
-		Connection cn = DAOfactory.INSTANCE.getConnexion();
+		Connection cn = DAOfactory.INSTANCE.getConnection();
 		PreparedStatement stmt = null;
 
 		stmt = (PreparedStatement) cn
@@ -113,7 +113,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 	public List<Computer> readFilterByName(PageWrapper<ComputerDTO> page)
 			throws SQLException {
 
-		Connection cn = DAOfactory.INSTANCE.getConnexion();
+		Connection cn = DAOfactory.INSTANCE.getConnection();
 
 		if ("".equals(page.getFilterName()))
 			return this.readByPage(page);
@@ -146,7 +146,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 	public Computer readFilterByID(Long id) throws SQLException {
 
 		PreparedStatement stmt = null;
-		Connection cn = DAOfactory.INSTANCE.getConnexion();
+		Connection cn = DAOfactory.INSTANCE.getConnection();
 		stmt = (PreparedStatement) cn
 				.prepareStatement("SELECT c.id, c.name, c.company_id, c.introduced, c.discontinued , f.name"
 						+ " FROM computer c LEFT JOIN company f ON c.company_id = f.id "
@@ -175,7 +175,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 
 		Connection cn = null;
 		PreparedStatement stmt = null;
-		cn = DAOfactory.INSTANCE.getConnexion();
+		cn = DAOfactory.INSTANCE.getConnection();
 		stmt = (PreparedStatement) cn.prepareStatement("DELETE FROM computer  "
 				+ " WHERE id=?");
 		stmt.setInt(1, Integer.valueOf(id));
@@ -197,7 +197,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 
 		Connection cn = null;
 		PreparedStatement stmt = null;
-		cn = DAOfactory.INSTANCE.getConnexion();
+		cn = DAOfactory.INSTANCE.getConnection();
 		stmt = (PreparedStatement) cn.prepareStatement("UPDATE computer SET "
 				+ " name= ?," + " introduced= ?," + " discontinued= ?,"
 				+ " company_id= ?" + " WHERE id= ?");
@@ -237,7 +237,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 		Connection cn = null;
 		PreparedStatement stmt = null;
 
-		cn = DAOfactory.INSTANCE.getConnexion();
+		cn = DAOfactory.INSTANCE.getConnection();
 		stmt = (PreparedStatement) cn.prepareStatement(
 				"INSERT INTO computer (name , introduced , discontinued , company_id) "
 						+ "VALUES(?,?,?,?)",
