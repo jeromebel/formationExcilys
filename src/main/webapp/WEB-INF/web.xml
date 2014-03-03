@@ -2,6 +2,18 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
           http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	version="3.0">
+
+	<!-- Errors Pages -->
+	<error-page>
+		<error-code>404</error-code>
+		<location>/WEB-INF/errors/error404.jsp</location>
+	</error-page>
+
+	<error-page>
+		<error-code>500</error-code>
+		<location>/WEB-INF/errors/errorJava.jsp</location>
+	</error-page>
+
 	<display-name>Archetype Created Web Application</display-name>
 
 	<servlet>
@@ -27,7 +39,7 @@
 		<servlet-name>default</servlet-name>
 		<url-pattern>*.png</url-pattern>
 	</servlet-mapping>
-	
+
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>/WEB-INF/dispatcher-servlet.xml</param-value>

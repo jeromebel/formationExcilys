@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dao.ComputerDAO;
-import com.dao.DAOfactory;
+import com.dao.LogDAO;
 import com.dto.ComputerDTO;
 import com.dto.MapComputer;
 import com.om.Computer;
@@ -24,6 +24,9 @@ public class ComputerServiceImpl implements ComputerService{
 
 	@Autowired
 	private ComputerDAO computerDAO;
+	
+	@Autowired
+	private LogDAO logDB;
 
 	   
 	@Override
@@ -33,7 +36,6 @@ public class ComputerServiceImpl implements ComputerService{
 			List<Computer> computers;
 			page.setTotalNumberOfRecords(computerDAO.readTotalCount());
 			computers = computerDAO.readByPage(page);
-
 
 			page.setResults(MapComputer.getComputersDTO(computers));
 		} catch (SQLException e) {
@@ -47,7 +49,7 @@ public class ComputerServiceImpl implements ComputerService{
 	public void readFilterByName(PageWrapper<ComputerDTO> page) {
 		try {
 
-			List<Computer> computers = computerDAO.readFilterByName(page);
+			List<Computer> computers = computerDAO.readFilterByName(page);			
 			page.setResults(MapComputer.getComputersDTO(computers));
 
 			String name = page.getFilterName();
@@ -81,7 +83,7 @@ public class ComputerServiceImpl implements ComputerService{
 		try {
 
 			computerDAO.delete(id);
-			DAOfactory.INSTANCE.getLogDAO().create(Long.valueOf(id),
+			logDB.create(Long.valueOf(id),
 					"Computer updated");
 		} catch (SQLException e) {
 			LOG.error("SQL error");
@@ -95,7 +97,7 @@ public class ComputerServiceImpl implements ComputerService{
 		try {
 
 			computerDAO.update(c);
-			DAOfactory.INSTANCE.getLogDAO().create(c.getId(),
+			logDB.create(c.getId(),
 					"Computer updated");
 
 		} catch (SQLException e) {
@@ -110,7 +112,7 @@ public class ComputerServiceImpl implements ComputerService{
 		try {
 			
 			computerDAO.create(c);
-			DAOfactory.INSTANCE.getLogDAO().create(c.getId(),
+			logDB.create(c.getId(),
 					"Add new computer");
 			
 		} catch (SQLException e) {

@@ -7,13 +7,13 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.dbcp.BasicDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Repository;
 
+import com.jolbox.bonecp.BoneCPDataSource;
 import com.om.Company;
 
 @Repository
@@ -22,7 +22,7 @@ public class CompanyDAOImpl implements CompanyDAO {
 	final Logger LOG = LoggerFactory.getLogger(CompanyDAOImpl.class);
 		
 	@Autowired
-	private BasicDataSource dataSource;
+	private BoneCPDataSource dataSource;
 	
 	@Override
 	public List<Company> readAll(){

@@ -9,7 +9,6 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.dbcp.BasicDataSource;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +17,7 @@ import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Repository;
 
 import com.dto.ComputerDTO;
+import com.jolbox.bonecp.BoneCPDataSource;
 import com.om.Company;
 import com.om.Computer;
 import com.servlet.wrapper.PageWrapper;
@@ -27,7 +27,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 	final Logger log = LoggerFactory.getLogger(ComputerDAOImpl.class);
 
 	@Autowired
-	private BasicDataSource dataSource;
+	private BoneCPDataSource dataSource;
 
 	@Override
 	public Integer readTotalCount() throws SQLException {

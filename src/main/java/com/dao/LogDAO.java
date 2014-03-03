@@ -7,16 +7,25 @@ import java.sql.SQLException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.DataSourceUtils;
+import org.springframework.stereotype.Repository;
 
+import com.jolbox.bonecp.BoneCPDataSource;
+
+@Repository
 public class LogDAO {
 	
 	final Logger LOG = LoggerFactory.getLogger(LogDAO.class);
+	
+	@Autowired
+	private BoneCPDataSource dataSource;
 	
 	public void create(long computerId, String description){
 		Connection cn = null;
 		PreparedStatement stmt = null;
 		try {
-			cn = DAOfactory.INSTANCE.getConnection();
+			cn = DataSourceUtils.getConnection(dataSource);
 			stmt = (PreparedStatement) cn
 					.prepareStatement("INSERT INTO log (description , computer_id )"
 							+ "VALUES(?,?)",PreparedStatement.RETURN_GENERATED_KEYS);
