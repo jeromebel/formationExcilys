@@ -9,9 +9,12 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.dbcp.BasicDataSource;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Repository;
 
 import com.dto.ComputerDTO;
@@ -23,17 +26,15 @@ import com.servlet.wrapper.PageWrapper;
 public class ComputerDAOImpl implements ComputerDAO {
 	final Logger log = LoggerFactory.getLogger(ComputerDAOImpl.class);
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.dao.ComputerDAO#readTotalCount()
-	 */
+	@Autowired
+	private BasicDataSource dataSource;
+
 	@Override
 	public Integer readTotalCount() throws SQLException {
 		PreparedStatement stmt = null;
-		Connection cn = DAOfactory.INSTANCE.getConnection();
+		Connection cn = DataSourceUtils.getConnection(dataSource);
 
-		stmt = (PreparedStatement) cn.prepareStatement("SELECT COUNT(*) "
+		stmt = cn.prepareStatement("SELECT COUNT(*) "
 				+ " FROM computer;");
 		ResultSet rs = (ResultSet) stmt.executeQuery();
 		while (rs.next()) {
@@ -43,19 +44,17 @@ public class ComputerDAOImpl implements ComputerDAO {
 
 		if (stmt != null)
 			stmt.close();
+		
+		if (rs != null)
+			rs.close();
 
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.dao.ComputerDAO#readTotalCountFilterByName(java.lang.String)
-	 */
 	@Override
 	public Integer readTotalCountFilterByName(String name) throws SQLException {
 		PreparedStatement stmt = null;
-		Connection cn = DAOfactory.INSTANCE.getConnection();
+		Connection cn = DataSourceUtils.getConnection(dataSource);
 
 		stmt = (PreparedStatement) cn
 				.prepareStatement("SELECT COUNT(*) "
@@ -71,20 +70,18 @@ public class ComputerDAOImpl implements ComputerDAO {
 
 		if (stmt != null)
 			stmt.close();
+		
+		if (rs != null)
+			rs.close();
 
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.dao.ComputerDAO#readByPage(com.servlet.wrapper.PageWrapper)
-	 */
 	@Override
 	public List<Computer> readByPage(PageWrapper<ComputerDTO> page)
 			throws SQLException {
 
-		Connection cn = DAOfactory.INSTANCE.getConnection();
+		Connection cn = DataSourceUtils.getConnection(dataSource);
 		PreparedStatement stmt = null;
 
 		stmt = (PreparedStatement) cn
@@ -103,17 +100,11 @@ public class ComputerDAOImpl implements ComputerDAO {
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.dao.ComputerDAO#readFilterByName(com.servlet.wrapper.PageWrapper)
-	 */
 	@Override
 	public List<Computer> readFilterByName(PageWrapper<ComputerDTO> page)
 			throws SQLException {
 
-		Connection cn = DAOfactory.INSTANCE.getConnection();
+		Connection cn = DataSourceUtils.getConnection(dataSource);
 
 		if ("".equals(page.getFilterName()))
 			return this.readByPage(page);
@@ -137,16 +128,11 @@ public class ComputerDAOImpl implements ComputerDAO {
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.dao.ComputerDAO#readFilterByID(java.lang.Long)
-	 */
 	@Override
 	public Computer readFilterByID(Long id) throws SQLException {
 
 		PreparedStatement stmt = null;
-		Connection cn = DAOfactory.INSTANCE.getConnection();
+		Connection cn = DataSourceUtils.getConnection(dataSource);
 		stmt = (PreparedStatement) cn
 				.prepareStatement("SELECT c.id, c.name, c.company_id, c.introduced, c.discontinued , f.name"
 						+ " FROM computer c LEFT JOIN company f ON c.company_id = f.id "
@@ -161,11 +147,6 @@ public class ComputerDAOImpl implements ComputerDAO {
 		return computers.get(0);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.dao.ComputerDAO#delete(java.lang.String)
-	 */
 	@Override
 	public void delete(String id) throws NumberFormatException, SQLException {
 		StringBuilder strBuildSQL = new StringBuilder();
@@ -175,7 +156,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 
 		Connection cn = null;
 		PreparedStatement stmt = null;
-		cn = DAOfactory.INSTANCE.getConnection();
+		cn = DataSourceUtils.getConnection(dataSource);
 		stmt = (PreparedStatement) cn.prepareStatement("DELETE FROM computer  "
 				+ " WHERE id=?");
 		stmt.setInt(1, Integer.valueOf(id));
@@ -187,17 +168,12 @@ public class ComputerDAOImpl implements ComputerDAO {
 			stmt.close();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.dao.ComputerDAO#update(com.om.Computer)
-	 */
 	@Override
 	public void update(Computer c) throws SQLException {
 
 		Connection cn = null;
 		PreparedStatement stmt = null;
-		cn = DAOfactory.INSTANCE.getConnection();
+		cn = DataSourceUtils.getConnection(dataSource);
 		stmt = (PreparedStatement) cn.prepareStatement("UPDATE computer SET "
 				+ " name= ?," + " introduced= ?," + " discontinued= ?,"
 				+ " company_id= ?" + " WHERE id= ?");
@@ -206,11 +182,11 @@ public class ComputerDAOImpl implements ComputerDAO {
 		if (c.getIntroduced() != null)
 			stmt.setTimestamp(2, new Timestamp(c.getIntroduced().getMillis()));
 		else
-			stmt.setNull(2 , Types.TIMESTAMP);
+			stmt.setNull(2, Types.TIMESTAMP);
 		if (c.getDiscontinued() != null)
 			stmt.setTimestamp(3, new Timestamp(c.getDiscontinued().getMillis()));
 		else
-			stmt.setNull(3 , Types.TIMESTAMP);
+			stmt.setNull(3, Types.TIMESTAMP);
 		if ((c.getCompany() != null) && (c.getCompany().getId() != 0))
 			stmt.setInt(4, c.getCompany().getId());
 		else
@@ -226,18 +202,13 @@ public class ComputerDAOImpl implements ComputerDAO {
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.dao.ComputerDAO#create(com.om.Computer)
-	 */
 	@Override
 	public void create(Computer c) throws SQLException {
 
 		Connection cn = null;
 		PreparedStatement stmt = null;
 
-		cn = DAOfactory.INSTANCE.getConnection();
+		cn = DataSourceUtils.getConnection(dataSource);
 		stmt = (PreparedStatement) cn.prepareStatement(
 				"INSERT INTO computer (name , introduced , discontinued , company_id) "
 						+ "VALUES(?,?,?,?)",
@@ -246,11 +217,11 @@ public class ComputerDAOImpl implements ComputerDAO {
 		if (c.getIntroduced() != null)
 			stmt.setTimestamp(2, new Timestamp(c.getIntroduced().getMillis()));
 		else
-			stmt.setNull(2 , Types.TIMESTAMP);
+			stmt.setNull(2, Types.TIMESTAMP);
 		if (c.getDiscontinued() != null)
 			stmt.setTimestamp(3, new Timestamp(c.getDiscontinued().getMillis()));
 		else
-			stmt.setNull(3 , Types.TIMESTAMP);
+			stmt.setNull(3, Types.TIMESTAMP);
 		if ((c.getCompany() != null) && (c.getCompany().getId() != 0))
 			stmt.setInt(4, c.getCompany().getId());
 		else

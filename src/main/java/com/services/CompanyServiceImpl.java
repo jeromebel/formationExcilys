@@ -4,12 +4,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.dao.CompanyDAO;
-import com.dao.DAOfactory;
 import com.om.Company;
 
 @Service
+@Transactional(readOnly=true)
 public class CompanyServiceImpl implements CompanyService {	
 	
 	@Autowired
@@ -19,11 +20,8 @@ public class CompanyServiceImpl implements CompanyService {
 	 * @see com.services.CompanyService#readAll()
 	 */
 	@Override
-	public List<Company> readAll(){
-		
-		DAOfactory.INSTANCE.startTransaction();
+	public List<Company> readAll(){		
 		List<Company> result = companyDAO.readAll();
-		DAOfactory.INSTANCE.endTransaction();		
 		return result;
 	}
 
