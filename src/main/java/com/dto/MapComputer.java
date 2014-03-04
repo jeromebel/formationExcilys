@@ -1,8 +1,5 @@
 package com.dto;
 
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +8,7 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.i18n.LocaleContextHolder;
 
 import com.om.Company;
 import com.om.Computer;
@@ -27,21 +25,32 @@ public class MapComputer {
 		if(cDTO.getName() != null)
 			c.setName(cDTO.getName());
 		
-		DateTime d = new DateTime( cDTO.getIntroduced() );
+		DateTime d;
+		try {
+			d = getLocalDateFormat().parseDateTime(cDTO.getIntroduced());
+		} catch (Exception e) {
+			d = null;
+			logger.debug(e.getMessage());
+		}
 		c.setIntroduced(d);
 		
-		d = new DateTime(cDTO.getDiscontinued());		
+		try {
+			d =  getLocalDateFormat().parseDateTime(cDTO.getDiscontinued());
+		}  catch (Exception e) {
+			d = null;
+			logger.debug(e.getMessage());
+		}
 		c.setDiscontinued(d);
 		
 		Company comp = new Company();
 		try{
-			comp.setId(Integer.valueOf(cDTO.getCompanyId()));
+			comp.setId(Integer.valueOf(cDTO.getCompany().getId()));
 		} catch (NumberFormatException e){
 			comp.setId(0);
 			logger.debug("Company Id invalid");
 		}
-		if( cDTO.getCompanyName() != null)
-			comp.setName(cDTO.getCompanyName());	
+		if( cDTO.getCompany().getName() != null)
+			comp.setName(cDTO.getCompany().getName());	
 		c.setCompany(comp);
 		
 		return c;
@@ -53,18 +62,22 @@ public class MapComputer {
 		
 		ComputerDTO cDTO = new ComputerDTO();		
 		cDTO.setId(String.valueOf(c.getId()));
-		cDTO.setCompanyId(String.valueOf(c.getCompany().getId()));
-		cDTO.setCompanyName(c.getCompany().getName());
+		
+		CompanyDTO comp = new CompanyDTO();
+		comp.setId(String.valueOf(c.getCompany().getId()));
+		comp.setName(c.getCompany().getName());
+		cDTO.setCompany(comp);
+		
 		cDTO.setName(c.getName());
 		
 		if (c.getIntroduced() != null)
-			cDTO.setIntroduced(c.getIntroduced().toString("yyyy-MM-dd" ));
+			cDTO.setIntroduced(getLocalDateFormat().print(c.getIntroduced()));
 		else
-			cDTO.setIntroduced("inconnue");
+			cDTO.setIntroduced("");
 		if (c.getDiscontinued() != null)
-			cDTO.setDiscontinued(c.getDiscontinued().toString("yyyy-MM-dd" ));
+			cDTO.setDiscontinued(getLocalDateFormat().print(c.getDiscontinued()));
 		else
-			cDTO.setDiscontinued("inconnue");
+			cDTO.setDiscontinued("");
 		return cDTO;
 	}
 	
@@ -76,4 +89,13 @@ public class MapComputer {
 		}
 		return computersDAO;		
 	}
+	
+	public static DateTimeFormatter getLocalDateFormat() {
+        String pattern = DateTimeFormat.patternForStyle("S-", LocaleContextHolder.getLocale());
+        logger.debug("Locale: " + LocaleContextHolder.getLocale());
+        logger.debug("Date pattern: " + pattern);
+        DateTimeFormatter fmt = DateTimeFormat.forPattern(pattern);        
+       
+        return fmt;
+    }
 }

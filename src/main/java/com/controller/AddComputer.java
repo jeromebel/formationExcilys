@@ -6,7 +6,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.joda.time.format.DateTimeFormat;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.dto.ComputerDTO;
+import com.dto.MapComputer;
 import com.om.Company;
 import com.om.Computer;
 import com.services.CompanyService;
@@ -41,12 +44,13 @@ public class AddComputer {
 		List<Company> companies = companyService.readAll();
 		model.addAttribute("computer", new Computer());
 		model.addAttribute("companies", companies);
+		model.addAttribute("dateFormat",DateTimeFormat.patternForStyle("S-", LocaleContextHolder.getLocale()).toLowerCase());
 		return "addComputer";
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
 	protected String doPost(ModelMap model, HttpServletRequest request,
-			@Valid Computer computer, BindingResult result,
+			@Valid ComputerDTO computer, BindingResult result,
 			final RedirectAttributes redirectAttributes) {
 
 		if (!result.hasErrors()) {
@@ -64,7 +68,7 @@ public class AddComputer {
 
 			page.setFilterName(computer.getName());
 
-			computerService.create(computer);
+			computerService.create(MapComputer.dtoToComputer(computer));
 			computerService.readFilterByName(page);
 
 			page.setNumberOfPages((Integer) (page.getResults().size())

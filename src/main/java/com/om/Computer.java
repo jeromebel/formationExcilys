@@ -1,26 +1,14 @@
 package com.om;
 
-
-import javax.validation.constraints.Past;
-
-import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.DateTime;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.stereotype.Component;
 
-@Component
 public class Computer{
 
 	
 	private long id;
 	private Company company;
-	@NotEmpty
 	private String name;
-	@DateTimeFormat(pattern="yyyy-mm-dd")
-	@Past
 	private DateTime introduced;
-	@DateTimeFormat(pattern="yyyy-mm-dd")
-	@Past
 	private DateTime discontinued;
 	
 	public DateTime getIntroduced() {

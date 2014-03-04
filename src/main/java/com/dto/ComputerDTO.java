@@ -2,18 +2,21 @@ package com.dto;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.util.ValidDateTime;
+
 public class ComputerDTO {
 	private String id;
-	private String companyName;
-	private String companyId;
+	private CompanyDTO company;
 	@NotEmpty
 	private String name;
+	@ValidDateTime
 	private String introduced;
+	@ValidDateTime
 	private String discontinued;
 
 	
 	public String toString(){
-		return "\n"+id +" : " + name +" "+ introduced +"->"+ discontinued +" " + companyName;
+		return "\n"+id +" : " + name +" "+ introduced +"->"+ discontinued +" " + company.getName();
 	}
 	
 	public String getId() {
@@ -21,13 +24,15 @@ public class ComputerDTO {
 	}
 	public void setId(String id) {
 		this.id = id;
+	}	
+	public CompanyDTO getCompany() {
+		return company;
 	}
-	public String getCompanyName() {
-		return companyName;
+
+	public void setCompany(CompanyDTO company) {
+		this.company = company;
 	}
-	public void setCompanyName(String company) {
-		this.companyName = company;
-	}
+
 	public String getName() {
 		return name;
 	}
@@ -46,13 +51,5 @@ public class ComputerDTO {
 	public void setDiscontinued(String discontinued) {
 		this.discontinued = discontinued;
 	}
-
-	public String getCompanyId() {
-		return companyId;
-	}
-
-	public void setCompanyId(String companyId) {
-		this.companyId = companyId;
-	}	
 	
 }

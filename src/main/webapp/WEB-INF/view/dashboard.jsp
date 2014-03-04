@@ -7,29 +7,35 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
 <section id="main">
-	<h1 id="homeTitle">${pageData.totalNumberOfRecords} <spring:message code="label.datafound"></spring:message> </h1>
+	<h1 id="homeTitle">${pageData.totalNumberOfRecords}
+		<spring:message code="label.datafound"></spring:message>
+	</h1>
 	<div id="actions">
 		<form action="Home" method="GET">
 			<input type="search" id="searchbox" name="filterName" value=""
 				placeholder="Search name">
-				<button type="submit"  class="btn primary">
-				<span class="ui-icon ui-icon-search" style="float: left; margin-right: .3em;"></span>
+			<button type="submit" class="btn primary">
+				<span class="ui-icon ui-icon-search"
+					style="float: left; margin-right: .3em;"></span>
 				<spring:message code="label.buttonsearch"></spring:message>
 			</button>
 		</form>
-		<a class="btn success" id="add" href="AddComputer"><spring:message code="label.buttonaddcomputer"></spring:message></a>
+		<a class="btn success" id="add" href="AddComputer"><spring:message
+				code="label.buttonaddcomputer"></spring:message></a>
 	</div>
 
 	<div class="pagination">
 		<h:PaginationLinks currPage="${pageData.pageNumber}"
-			totalPages="${pageData.numberOfPages}" computersPerPage="${pageData.computerPerPage}"></h:PaginationLinks>
-	</div> 
+			totalPages="${pageData.numberOfPages}"
+			computersPerPage="${pageData.computerPerPage}"></h:PaginationLinks>
+	</div>
 
 
 	<form action="Home" method="GET">
 		<div class="actions">
 			<div class="clearfix">
-				<label for="computerPerPage"><spring:message code="label.computersperpage"></spring:message>:</label>
+				<label for="computerPerPage"><spring:message
+						code="label.computersperpage"></spring:message>:</label>
 				<div class="input">
 					<select name="computersPerPage">
 						<option selected value="${pageData.computerPerPage }">${pageData.computerPerPage }</option>
@@ -59,10 +65,22 @@
 			<tr>
 				<!-- Variable declarations for passing labels as parameters -->
 				<!-- Table header for Computer Name -->
-				<th style="width:20%;"><h:OrderByLink pageData="${pageData }" field="c.name" ></h:OrderByLink></th>
-				<th style="width:20%;"><h:OrderByLink pageData="${pageData }" field="c.introduced" ></h:OrderByLink> </th>
-				<th style="width:20%;"><h:OrderByLink pageData="${pageData }" field="c.discontinued" ></h:OrderByLink></th>
-				<th style="width:20%;"><h:OrderByLink pageData="${pageData }" field="f.name" ></h:OrderByLink></th>
+				<th style="width: 20%;"><h:OrderByLink pageData="${pageData }"
+						field="c.name">
+						<spring:message code="label.table.header.computer"></spring:message>
+					</h:OrderByLink></th>
+				<th style="width: 20%;"><h:OrderByLink pageData="${pageData }"
+						field="c.introduced">
+						<spring:message code="label.table.header.introduced"></spring:message>
+					</h:OrderByLink></th>
+				<th style="width: 20%;"><h:OrderByLink pageData="${pageData }"
+						field="c.discontinued">
+						<spring:message code="label.table.header.discontinued"></spring:message>
+					</h:OrderByLink></th>
+				<th style="width: 20%;"><h:OrderByLink pageData="${pageData }"
+						field="f.name">
+						<spring:message code="label.table.header.company"></spring:message>
+					</h:OrderByLink></th>
 				<th><spring:message code="label.buttonedit"></spring:message></th>
 				<th><spring:message code="label.buttondelete"></spring:message></th>
 			</tr>
@@ -75,7 +93,7 @@
 					<td>${computerDTO.name}</td>
 					<td>${computerDTO.introduced}</td>
 					<td>${computerDTO.discontinued}</td>
-					<td>${computerDTO.companyName}</td>
+					<td>${computerDTO.company.name}</td>
 					<td>
 						<form method="GET" action="EditComputer">
 							<button type="submit" name="idComputer" value="${computerDTO.id}"

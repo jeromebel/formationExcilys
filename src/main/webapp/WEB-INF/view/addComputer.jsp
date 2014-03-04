@@ -26,20 +26,20 @@
 				<label for="introduced"><spring:message code="label.table.header.introduced"></spring:message> :</label>
 				<div class="input">
 					<form:input class="datepicker" path="introduced"
-						data-validation="date" data-validation-format="yyyy-mm-dd"
+						data-validation="date" data-validation-format="${dateFormat}"
 						data-validation-optional="true"
-						data-validation-error-msg="Please enter a valide format YYYY-MM-DD"
-						value="2008-02-06" /> <span class="help-inline">YYYY-MM-DD</span>
+						data-validation-error-msg="Please enter a valide format ${dateFormat }"
+						value="2008-02-06" /> <span class="help-inline">${dateFormat }</span>
 				</div>
 			</div>
 			<div class="clearfix">
 				<label for="discontinued"><spring:message code="label.table.header.discontinued"></spring:message> :</label>
 				<div class="input">
 					<form:input class="datepicker" path="discontinued"
-						data-validation="date" data-validation-format="yyyy-mm-dd"
+						data-validation="date" data-validation-format="${dateFormat }"
 						data-validation-optional="true"
-						data-validation-error-msg="Please enter a valide format YYYY-MM-DD"
-						value="2010-10-26" /> <span class="help-inline">YYYY-MM-DD</span>
+						data-validation-error-msg="Please enter a valide format ${dateFormat }"
+						value="2010-10-26" /> <span class="help-inline">${dateFormat }</span>
 				</div>
 			</div>
 			<div class="clearfix">
@@ -66,7 +66,7 @@
 
 <script type="text/javascript">
 	$('.datepicker').datepicker();
-	$('.datepicker').datepicker("option", "dateFormat", "yy-mm-dd");
+	$('.datepicker').datepicker("option", "dateFormat", "${dateFormat}");
 	$('.datepicker').datepicker("option", "changeYear", true);
 	
 	$.validate({

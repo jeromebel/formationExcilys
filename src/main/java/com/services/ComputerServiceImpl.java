@@ -39,7 +39,7 @@ public class ComputerServiceImpl implements ComputerService{
 
 			page.setResults(MapComputer.getComputersDTO(computers));
 		} catch (SQLException e) {
-			LOG.error("SQL error");
+			LOG.error("\nSQL error\nreadByPage");
 		}
 
 	}
@@ -56,7 +56,7 @@ public class ComputerServiceImpl implements ComputerService{
 			page.setTotalNumberOfRecords(computerDAO.readTotalCountFilterByName(name));
 
 		} catch (SQLException e) {
-			LOG.error("SQL error");
+			LOG.error("\nSQL error\nreadFilterByName");
 		}
 
 	}
@@ -72,7 +72,7 @@ public class ComputerServiceImpl implements ComputerService{
 
 			return result;
 		} catch (SQLException e) {
-			LOG.error("SQL error");
+			LOG.error("\nSQL error\nreadFilterByID");
 		}
 		return null;
 	}
@@ -86,7 +86,7 @@ public class ComputerServiceImpl implements ComputerService{
 			logDB.create(Long.valueOf(id),
 					"Computer updated");
 		} catch (SQLException e) {
-			LOG.error("SQL error");
+			LOG.error("\nSQL error\ndelete");
 		}
 	}
 
@@ -101,7 +101,7 @@ public class ComputerServiceImpl implements ComputerService{
 					"Computer updated");
 
 		} catch (SQLException e) {
-			LOG.error("SQL error");
+			LOG.error("\nSQL error\nupdate");
 		}
 	}
 
@@ -116,7 +116,7 @@ public class ComputerServiceImpl implements ComputerService{
 					"Add new computer");
 			
 		} catch (SQLException e) {
-			LOG.error("SQL error");
+			LOG.error("\nSQL error\ncreate");
 		}
 
 	}
