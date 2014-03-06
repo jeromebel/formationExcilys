@@ -80,6 +80,7 @@ public class AddComputer {
 			return "redirect:Home";
 		} else {
 			model.addAttribute("computer", computer);
+			model.addAttribute("dateFormat",DateTimeFormat.patternForStyle("S-", LocaleContextHolder.getLocale()).toLowerCase());
 			return "addComputer";
 		}
 

@@ -54,7 +54,7 @@ public class EditComputer extends HttpServlet {
 		
 		model.addAttribute("computerEdit", c);
 		model.addAttribute("companyId", c.getCompany().getId());
-		model.addAttribute("dateFormat",DateTimeFormat.patternForStyle("S-", LocaleContextHolder.getLocale()));
+		model.addAttribute("dateFormat",DateTimeFormat.patternForStyle("S-", LocaleContextHolder.getLocale()).toLowerCase());
 		
 		return "editComputer";
 	}
@@ -96,6 +96,7 @@ public class EditComputer extends HttpServlet {
 			
 			model.addAttribute("computerEdit", computerEdit);
 			model.addAttribute("companyId", computerEdit.getCompany().getId());
+			model.addAttribute("dateFormat",DateTimeFormat.patternForStyle("S-", LocaleContextHolder.getLocale()).toLowerCase());
 			
 			List<Company> companies = companyService.readAll();
 			model.addAttribute("companies", companies);
