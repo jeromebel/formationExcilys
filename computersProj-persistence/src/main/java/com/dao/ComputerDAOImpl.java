@@ -52,30 +52,15 @@ public class ComputerDAOImpl implements ComputerDAO {
 			+ "VALUES(?,?,?,?)";
 
 	@Autowired
-	private BoneCPDataSource dataSource;
-
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 	
-	private JdbcTemplate jdbcTemplate;
-
-	private JdbcTemplate getNamedParameterJdbcTemplate;
-	
-	private JdbcTemplate getJdbcTemplate(){
-		if(jdbcTemplate == null)
-			jdbcTemplate = new JdbcTemplate(dataSource);
-		
-		return jdbcTemplate;
-	}
-	
 	private NamedParameterJdbcTemplate getNamedParameterJdbcTemplate(){
-		if(namedParameterJdbcTemplate == null)
-			namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 		return namedParameterJdbcTemplate;
 	}
 	
 	@Override
 	public Integer readTotalCount() throws SQLException {
-		return getJdbcTemplate().queryForInt(SQL_READ_TOTAL_COUNT);
+		return readTotalCountFilterByName("");
 	}
 
 	@Override

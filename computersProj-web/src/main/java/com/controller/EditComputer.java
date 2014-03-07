@@ -46,6 +46,11 @@ public class EditComputer extends HttpServlet {
 	protected String doGet(ModelMap model, HttpServletRequest request) {
 				
 		String id = request.getParameter("idComputer");
+		HttpSession s = request.getSession();
+		if(id != null)
+			s.setAttribute("idComputer", id);
+		else
+			id = (String) s.getAttribute("idComputer");
 		
 		List<Company> companies = companyService.readAll();
 		request.setAttribute("companies", companies);
@@ -88,6 +93,7 @@ public class EditComputer extends HttpServlet {
 			
 			HttpSession s = request.getSession();
 			s.setAttribute("pageData" , page);
+			s.removeAttribute("idComputer");
 			
 			redirectAttributes.addFlashAttribute("pageData", page);			
 			return "redirect:Home";	
