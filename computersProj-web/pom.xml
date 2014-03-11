@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>formation</groupId>
 		<artifactId>computersProj</artifactId>
-		<version>2.2.0-SNAPSHOT</version>
+		<version>${parent.project.version}</version>
 	</parent>
 	<artifactId>computersProj-web</artifactId>
 	<packaging>war</packaging>
@@ -16,7 +16,7 @@
 		<dependency>
 			<groupId>formation</groupId>
 			<artifactId>computersProj-core</artifactId>
-			<version>2.2.0-SNAPSHOT</version>
+			<version>${parent.project.version}</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>jcl-over-slf4j</artifactId>
@@ -28,7 +28,7 @@
 		<dependency>
 			<groupId>formation</groupId>
 			<artifactId>computersProj-service</artifactId>
-			<version>2.2.0-SNAPSHOT</version>
+			<version>${parent.project.version}</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>jcl-over-slf4j</artifactId>
@@ -40,7 +40,7 @@
 		<dependency>
 			<groupId>formation</groupId>
 			<artifactId>computersProj-binding</artifactId>
-			<version>2.2.0-SNAPSHOT</version>
+			<version>${parent.project.version}</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>jcl-over-slf4j</artifactId>
