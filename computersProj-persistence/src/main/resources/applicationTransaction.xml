@@ -14,13 +14,6 @@ http://www.springframework.org/schema/data/jpa/spring-jpa-1.0.xsd
 		<constructor-arg ref="dataSource" />
 	</bean>
 
-	<!-- <bean id="txManager" -->
-	<!-- class="org.springframework.jdbc.datasource.DataSourceTransactionManager"> -->
-	<!-- <property name="dataSource" ref="dataSource" /> -->
-	<!-- </bean> -->
-
-	<!-- <tx:annotation-driven transaction-manager="txManager" /> -->
-
 	<tx:annotation-driven transaction-manager="transactionManager" />
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
@@ -46,17 +39,12 @@ http://www.springframework.org/schema/data/jpa/spring-jpa-1.0.xsd
 
 	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-		<property name="packagesToScan" value="com.om" />
+		<!-- <property name="packagesToScan" value="com.om" /> -->
+		<property name="persistenceXmlLocation" value="classpath*:/META-INF/persistence.xml" />
+		<property name="persistenceUnitName" value="persistenceUnit" />
 		<property name="dataSource" ref="dataSource" />
 		<property name="jpaVendorAdapter" ref="jpaVendorAdapter" />
 		<property name="jpaDialect" ref="jpaDialect" />
 	</bean>
-
-	<!-- <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"> -->
-	<!-- <property name="entityManagerFactory" ref="entityManagerFactory" /> -->
-	<!-- </bean> -->
-
-	<!-- <tx:annotation-driven transaction-manager="transactionManager" /> -->
-
 
 </beans>

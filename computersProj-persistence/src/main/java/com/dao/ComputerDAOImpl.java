@@ -17,20 +17,6 @@ import com.servlet.wrapper.PageWrapper;
 public class ComputerDAOImpl implements ComputerDAO {
 	final Logger log = LoggerFactory.getLogger(ComputerDAOImpl.class);
 
-	final String FILTER_NAME = "filterName";
-	final String FILTER_ID = "filterId";
-	final String LIMIT = "limit";
-	final String OFFSET = "offset";
-	final String NAME = "name";
-	final String INTRODUCED = "introduced";
-	final String DISCONTINUED = "discontinued";
-	final String COMPANY_ID = "company_id";
-
-	final String SQL_READ_TOTAL_COUNT = "SELECT COUNT(*) FROM computer;";
-	final String SQL_READ_TOTAL_COUNT_BY_NAME = "SELECT COUNT(*) "
-			+ " FROM computer c LEFT JOIN company f ON c.company_id = f.id "
-			+ " WHERE c.name LIKE :filterName OR f.name LIKE :filterName ;";
-
 	@PersistenceContext(unitName = "entityManagerFactory")
 	private EntityManager entityManager;
 
