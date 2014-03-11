@@ -16,7 +16,10 @@ public class ComputerDTO {
 
 	
 	public String toString(){
-		return "\n"+id +" : " + name +" "+ introduced +"->"+ discontinued +" " + company.getName();
+		if(company != null)
+			return "\n"+id +" : " + name +" "+ introduced +"->"+ discontinued +" " + company.getName();
+		else
+			return "\n"+id +" : " + name +" "+ introduced +"->"+ discontinued +" unkonwn ";
 	}
 	
 	public String getId() {

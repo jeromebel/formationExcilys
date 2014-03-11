@@ -7,8 +7,6 @@ public interface ComputerService {
 
 	public abstract void readByPage(PageWrapper page);
 
-	public abstract void readFilterByName(PageWrapper page);
-
 	public abstract Computer readFilterByID(Long id);
 
 	public abstract void delete(String id);

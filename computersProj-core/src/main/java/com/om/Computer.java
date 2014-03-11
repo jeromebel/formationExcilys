@@ -1,14 +1,35 @@
 package com.om;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
+@Entity
+@Table(name="computer")
 public class Computer{
 
-	
+	@Column(name = "id", nullable = false)
+	@GeneratedValue
+	@Id
 	private long id;
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="company_id")
 	private Company company;
+	@Column(name="name", nullable = false)
 	private String name;
+	@Column(name="introduced")
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	private DateTime introduced;
+	@Column(name="discontinued")
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	private DateTime discontinued;
 	
 	public DateTime getIntroduced() {

@@ -15,8 +15,7 @@ import com.dto.MapComputer;
 import com.om.Computer;
 import com.servlet.wrapper.PageWrapper;
 
-@Service
-@Transactional(readOnly=true)
+@Service("computerService")
 public class ComputerServiceImpl implements ComputerService{
 	
 	final Logger LOG = LoggerFactory.getLogger(ComputerServiceImpl.class);
@@ -29,11 +28,11 @@ public class ComputerServiceImpl implements ComputerService{
 
 	   
 	@Override
+	@Transactional(readOnly=true)
 	public void readByPage(PageWrapper page) {
 
 		try {
 			List<Computer> computers;
-			page.setTotalNumberOfRecords(computerDAO.readTotalCount());
 			computers = computerDAO.readByPage(page);
 
 			page.setResults(MapComputer.getComputersDTO(computers));
@@ -43,25 +42,8 @@ public class ComputerServiceImpl implements ComputerService{
 
 	}
 
-
 	@Override
-	public void readFilterByName(PageWrapper page) {
-		try {
-
-			List<Computer> computers = computerDAO.readFilterByName(page);			
-			page.setResults(MapComputer.getComputersDTO(computers));
-
-			String name = page.getFilterName();
-			page.setTotalNumberOfRecords(computerDAO.readTotalCountFilterByName(name));
-
-		} catch (SQLException e) {
-			LOG.error("\nSQL error\nreadFilterByName");
-		}
-
-	}
-
-
-	@Override
+	@Transactional(readOnly=true)
 	public Computer readFilterByID(Long id) {
 
 		try {

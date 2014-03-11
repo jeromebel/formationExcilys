@@ -8,16 +8,8 @@ import com.servlet.wrapper.PageWrapper;
 
 public interface ComputerDAO {
 
-	public abstract Integer readTotalCount() throws SQLException;
-
-	public abstract Integer readTotalCountFilterByName(String name)
-			throws SQLException;
-
 	public abstract List<Computer> readByPage(PageWrapper page)
 			throws SQLException;
-
-	public abstract List<Computer> readFilterByName(
-			PageWrapper page) throws SQLException;
 
 	public abstract Computer readFilterByID(Long id) throws SQLException;
 

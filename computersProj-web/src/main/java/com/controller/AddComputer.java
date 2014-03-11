@@ -69,7 +69,7 @@ public class AddComputer {
 			page.setFilterName(computer.getName());
 
 			computerService.create(MapComputer.dtoToComputer(computer));
-			computerService.readFilterByName(page);
+			computerService.readByPage(page);
 
 			page.setNumberOfPages((Integer) (page.getResults().size())
 					/ page.getComputerPerPage());

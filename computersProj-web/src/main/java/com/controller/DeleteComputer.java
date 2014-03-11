@@ -2,6 +2,8 @@ package com.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -17,6 +19,7 @@ import com.services.ComputerService;
 @Controller
 @RequestMapping("/DeleteComputer")
 public class DeleteComputer {
+	final Logger LOG = LoggerFactory.getLogger(DeleteComputer.class);
 	
 	@Autowired
 	private ComputerService computerService;
@@ -29,6 +32,7 @@ public class DeleteComputer {
     @RequestMapping(method = RequestMethod.GET)
 	protected String doGet(ModelMap model , HttpServletRequest request) {
 		String id = request.getParameter("idComputer");
+		LOG.debug("Id computer recieve : "+id);
 				
 		Computer c = computerService.readFilterByID(Long.valueOf(id));
 		ComputerDTO cDTO = MapComputer.computerToDTO(c);

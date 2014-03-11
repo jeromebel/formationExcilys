@@ -87,7 +87,7 @@ public class EditComputer extends HttpServlet {
 			page.setOrderedBy("c.id");
 			page.setFilterName(computerEdit.getName());
 			
-			computerService.readFilterByName(page);
+			computerService.readByPage(page);
 			
 			page.setNumberOfPages((Integer) (page.getTotalNumberOfRecords()/page.getComputerPerPage())+1);
 			

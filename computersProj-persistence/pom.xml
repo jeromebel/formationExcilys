@@ -28,22 +28,8 @@
 		</dependency>
 		<!-- Hibernate dependencies -->
 		<dependency>
-			<groupId>org.hibernate.javax.persistence</groupId>
-			<artifactId>hibernate-jpa-2.0-api</artifactId>
-			<version>1.0.1.Final</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-core</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-ehcache</artifactId>
 		</dependency>
 
 		<!-- Spring dependencies -->
@@ -60,6 +46,11 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
 		</dependency>
 
 		<dependency>
@@ -87,6 +78,10 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
 			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.jolbox</groupId>
+			<artifactId>bonecp-spring</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>mysql</groupId>

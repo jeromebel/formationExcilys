@@ -26,9 +26,10 @@
 		<logback.version>1.1.1</logback.version>
 		<mysql-connector.version>5.1.29</mysql-connector.version>
 		<spring.version>4.0.2.RELEASE</spring.version>
-		<hibernate.version>4.2.0.Final</hibernate.version>
-		<org.slf4j-version>1.6.6</org.slf4j-version>
+		<hibernate.version>4.3.4.Final</hibernate.version>
+		<hibernate-validator.version>5.1.0.Final</hibernate-validator.version>
 		<joda-time.version>2.3</joda-time.version>
+		<jadira.version>2.0</jadira.version>
 	</properties>
 
 	<dependencyManagement>
@@ -52,35 +53,34 @@
 				<version>${spring.version}</version>
 			</dependency>
 
-
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-orm</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
 
 			<!-- Hibernate -->
 			<dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-validator</artifactId>
-				<version>${hibernate.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.hibernate</groupId>
-				<artifactId>hibernate-core</artifactId>
-				<version>${hibernate.version}</version>
+				<version>${hibernate-validator.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-entitymanager</artifactId>
 				<version>${hibernate.version}</version>
 			</dependency>
-			<dependency>
-				<groupId>org.hibernate</groupId>
-				<artifactId>hibernate-ehcache</artifactId>
-				<version>${hibernate.version}</version>
-			</dependency>
-
 
 			<dependency>
 				<groupId>joda-time</groupId>
 				<artifactId>joda-time</artifactId>
 				<version>${joda-time.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.jadira.usertype</groupId>
+				<artifactId>usertype.jodatime</artifactId>
+				<version>${jadira.version}</version>
 			</dependency>
 
 			<dependency>
@@ -109,25 +109,29 @@
 				<groupId>ch.qos.logback</groupId>
 				<artifactId>logback-classic</artifactId>
 				<version>${logback.version}</version>
-				<scope>runtime</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-api</artifactId>
-				<version>${org.slf4j-version}</version>
+				<version>${slf4j.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>jcl-over-slf4j</artifactId>
-				<version>${org.slf4j-version}</version>
-				<scope>runtime</scope>
+				<version>${slf4j.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-log4j12</artifactId>
-				<version>${org.slf4j-version}</version>
-				<scope>runtime</scope>
+				<version>${slf4j.version}</version>
 			</dependency>
+
+			<dependency>
+				<groupId>com.jolbox</groupId>
+				<artifactId>bonecp-spring</artifactId>
+				<version>${bonecp.version}</version>
+			</dependency>
+
 			<dependency>
 				<groupId>mysql</groupId>
 				<artifactId>mysql-connector-java</artifactId>

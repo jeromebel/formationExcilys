@@ -71,7 +71,7 @@ public class Home {
 		if(nomFiltre != null && nomFiltre !=""){
 			page.setFilterName(nomFiltre);
 			page.setPageNumber(1);
-			computerService.readFilterByName(page);			
+			computerService.readByPage(page);			
 		}
 		else {
 			page.setFilterName("");

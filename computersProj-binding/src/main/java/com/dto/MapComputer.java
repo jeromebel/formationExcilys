@@ -64,8 +64,13 @@ public class MapComputer {
 		cDTO.setId(String.valueOf(c.getId()));
 		
 		CompanyDTO comp = new CompanyDTO();
-		comp.setId(String.valueOf(c.getCompany().getId()));
-		comp.setName(c.getCompany().getName());
+		try {
+			comp.setId(String.valueOf(c.getCompany().getId()));
+			comp.setName(c.getCompany().getName());
+		} catch (NullPointerException nullE){
+			comp = null;
+			logger.debug("company null");
+		}
 		cDTO.setCompany(comp);
 		
 		cDTO.setName(c.getName());
@@ -92,8 +97,6 @@ public class MapComputer {
 	
 	public static DateTimeFormatter getLocalDateFormat() {
         String pattern = DateTimeFormat.patternForStyle("S-", LocaleContextHolder.getLocale());
-        logger.debug("Locale: " + LocaleContextHolder.getLocale());
-        logger.debug("Date pattern: " + pattern);
         DateTimeFormatter fmt = DateTimeFormat.forPattern(pattern);        
        
         return fmt;
