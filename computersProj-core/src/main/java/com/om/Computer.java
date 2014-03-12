@@ -20,8 +20,8 @@ public class Computer{
 	@GeneratedValue
 	@Id
 	private long id;
-	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="company_id")
+	@ManyToOne(fetch=FetchType.EAGER , optional = true)
+	@JoinColumn(name="company_id" , nullable = true)
 	private Company company;
 	@Column(name="name", nullable = false)
 	private String name;

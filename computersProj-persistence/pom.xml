@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>formation</groupId>
 		<artifactId>computersProj</artifactId>
-		<version>${parent.project.version}</version>
+		<version>2.2.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>computersProj-persistence</artifactId>
 	<name>computersProj-persistence</name>
@@ -18,13 +18,13 @@
 		<dependency>
 			<groupId>formation</groupId>
 			<artifactId>computersProj-core</artifactId>
-			<version>${parent.project.version}</version>
+			<version>2.2.0-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
 			<groupId>formation</groupId>
 			<artifactId>computersProj-binding</artifactId>
-			<version>${parent.project.version}</version>
+			<version>2.2.0-SNAPSHOT</version>
 		</dependency>
 		<!-- Hibernate dependencies -->
 		<dependency>

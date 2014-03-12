@@ -5,16 +5,16 @@
 		<wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
 		<wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
 		<wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
-        <dependent-module archiveName="computersProj-core-3.1.0-RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/computersProj-core/computersProj-core">
+        <dependent-module archiveName="computersProj-core-2.2.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/computersProj-core/computersProj-core">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="computersProj-service-3.1.0-RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/computersProj-service/computersProj-service">
+        <dependent-module archiveName="computersProj-service-2.2.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/computersProj-service/computersProj-service">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="computersProj-persistence-3.1.0-RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/computersProj-persistence/computersProj-persistence">
+        <dependent-module archiveName="computersProj-persistence-2.2.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/computersProj-persistence/computersProj-persistence">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="computersProj-binding-3.1.0-RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/computersProj-binding/computersProj-binding">
+        <dependent-module archiveName="computersProj-binding-2.2.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/computersProj-binding/computersProj-binding">
             <dependency-type>uses</dependency-type>
         </dependent-module>
 		<property name="context-root" value="computersProj-web"/>
