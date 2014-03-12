@@ -15,7 +15,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import com.mysema.query.jpa.JPQLQuery;
+import com.mysema.query.jpa.impl.JPAQuery;
 import com.om.Computer;
+import com.om.QCompany;
+import com.om.QComputer;
 import com.servlet.wrapper.PageWrapper;
 
 @Repository("computerDAO")
@@ -40,9 +44,12 @@ public class ComputerDAOImpl implements ComputerDAO {
 		List<Computer> computers;
 
 		Criteria crit = getCriteria();
-		crit.createAlias("company", "f",JoinType.LEFT_OUTER_JOIN)
-				.add(Restrictions.or(Restrictions.like("f.name", "%" + page.getFilterName() + "%")
-						, Restrictions.like("name", "%" + page.getFilterName() + "%")))
+		crit.createAlias("company", "f", JoinType.LEFT_OUTER_JOIN)
+				.add(Restrictions.or(
+						Restrictions.like("f.name", "%" + page.getFilterName()
+								+ "%"),
+						Restrictions.like("name", "%" + page.getFilterName()
+								+ "%")))
 				.setMaxResults(page.getComputerPerPage())
 				.setFirstResult(offset);
 
@@ -59,6 +66,45 @@ public class ComputerDAOImpl implements ComputerDAO {
 
 		computers = crit.list();
 
+		JPQLQuery query = new JPAQuery(entityManager);
+		QComputer computer = QComputer.computer;
+		QCompany company = QCompany.company;
+		query = query
+				.from(computer)
+				.leftJoin(computer.company, company)
+				.where(computer.name.like("%" + page.getFilterName() + "%").or(
+						company.name.like("%" + page.getFilterName() + "%")));
+
+		String field = page.getOrderedBy();
+		if ("DESC".equals(page.getOrderDirection())) {
+			if ("c.name".equals(field)) {
+				query.orderBy(computer.name.desc());
+			} else if ("c.introduced".equals(field)) {
+				query.orderBy(computer.introduced.desc());
+			} else if ("c.discontinued".equals(field)) {
+				query.orderBy(computer.discontinued.desc());
+			} else if ("company.name".equals(field)) {
+				query.orderBy(company.name.desc());
+			} else {
+				query.orderBy(computer.id.desc());
+			}
+		} else {// ASC
+			if ("c.name".equals(field)) {
+				query.orderBy(computer.name.asc());
+			} else if ("c.introduced".equals(field)) {
+				query.orderBy(computer.introduced.asc());
+			} else if ("c.discontinued".equals(field)) {
+				query.orderBy(computer.discontinued.asc());
+			} else if ("company.name".equals(field)) {
+				query.orderBy(company.name.asc());
+			} else {
+				query.orderBy(computer.id.asc());
+			}
+		}
+
+		computers = query.limit(page.getComputerPerPage()).offset(offset)
+				.list(computer);
+
 		long numberTotalOfComputers = (long) entityManager
 				.createQuery(
 						"SELECT count(computer) FROM Computer as computer LEFT JOIN computer.company comp WITH comp.name LIKE :nameSearch WHERE computer.name LIKE :nameSearch")
@@ -73,14 +119,13 @@ public class ComputerDAOImpl implements ComputerDAO {
 	@Override
 	public Computer readFilterByID(Long id) throws SQLException {
 
-		@SuppressWarnings("unchecked")
-		List<Computer> computers = getCriteria().list();
+		JPQLQuery query = new JPAQuery(entityManager);
+		QComputer computer = QComputer.computer;
+		Computer c = query.from(computer).where(computer.id.eq(id))
+				.uniqueResult(computer);
 
-		if ((computers == null) || (computers.size() > 1))
-			log.error("Problem to get computer by id");
+		return c;
 
-		// return entityManager.find(Computer.class, id);
-		return computers.get(0);
 	}
 
 	@Override

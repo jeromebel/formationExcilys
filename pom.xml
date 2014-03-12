@@ -31,10 +31,26 @@
 		<joda-time.version>2.3</joda-time.version>
 		<jadira.version>2.0</jadira.version>
 		<javax.persistence.version>1.0.1.Final</javax.persistence.version>
+		<querydsl.version>3.3.1</querydsl.version>
 	</properties>
 
 	<dependencyManagement>
 		<dependencies>
+
+			<!-- QueryDSL -->
+			<dependency>
+				<groupId>com.mysema.querydsl</groupId>
+				<artifactId>querydsl-apt</artifactId>
+				<version>${querydsl.version}</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>com.mysema.querydsl</groupId>
+				<artifactId>querydsl-jpa</artifactId>
+				<version>${querydsl.version}</version>
+			</dependency>
+
 			<!-- Spring dependencies -->
 			<dependency>
 				<groupId>org.springframework</groupId>
