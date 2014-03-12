@@ -40,8 +40,9 @@ public class ComputerDAOImpl implements ComputerDAO {
 		List<Computer> computers;
 
 		Criteria crit = getCriteria();
-		crit.add(Restrictions.like("name", "%" + page.getFilterName() + "%"))
-				.createAlias("company", "f",JoinType.LEFT_OUTER_JOIN)
+		crit.createAlias("company", "f",JoinType.LEFT_OUTER_JOIN)
+				.add(Restrictions.or(Restrictions.like("f.name", "%" + page.getFilterName() + "%")
+						, Restrictions.like("name", "%" + page.getFilterName() + "%")))
 				.setMaxResults(page.getComputerPerPage())
 				.setFirstResult(offset);
 
