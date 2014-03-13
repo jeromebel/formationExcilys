@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>formation</groupId>
-	<artifactId>computersProj</artifactId>
+	<artifactId>computers-db-proj</artifactId>
 	<packaging>pom</packaging>
 	<version>2.2.0-SNAPSHOT</version>
-	<name>computersProj</name>
+	<name>computers-db-proj</name>
 	<url>http://maven.apache.org</url>
 
 	<modules>
-		<module>computersProj-core</module>
-		<module>computersProj-binding</module>
-		<module>computersProj-persistence</module>
-		<module>computersProj-service</module>
-		<module>computersProj-web</module>
+		<module>computers-db-core</module>
+		<module>computers-db-binding</module>
+		<module>computers-db-service</module>
+		<module>computers-db-web</module>
+		<module>computers-db-persitence</module>
 	</modules>
 
 
@@ -76,13 +75,13 @@
 				<version>${spring.version}</version>
 			</dependency>
 
-			<!-- Hibernate -->
 			<dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-validator</artifactId>
 				<version>${hibernate-validator.version}</version>
 			</dependency>
 
+			<!-- Hibernate -->
 			<dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-entitymanager</artifactId>
