@@ -53,7 +53,9 @@ public class ComputerDAOImpl implements ComputerDAO {
 				.setMaxResults(page.getComputerPerPage())
 				.setFirstResult(offset);
 
-		String orderField = page.getOrderedBy();
+		String orderField = page.getOrderBy();
+		if (orderField == null)
+			orderField = "c.id";
 		if (orderField.startsWith("c."))
 			orderField = orderField.substring(2);
 
@@ -75,7 +77,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 				.where(computer.name.like("%" + page.getFilterName() + "%").or(
 						company.name.like("%" + page.getFilterName() + "%")));
 
-		String field = page.getOrderedBy();
+		String field = page.getOrderBy();
 		if ("DESC".equals(page.getOrderDirection())) {
 			if ("c.name".equals(field)) {
 				query.orderBy(computer.name.desc());

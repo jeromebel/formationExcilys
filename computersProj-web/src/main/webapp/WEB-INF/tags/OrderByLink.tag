@@ -4,26 +4,30 @@
 <%@ attribute name="text" required="false" type="java.lang.String"%>
 <%@ attribute name="pageData" required="true" type="java.lang.Object"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="h"%>
 
 <c:choose>
-	<c:when test="${pageData.orderedBy == field}">
+	<c:when test="${pageData.orderBy == field}">
 		<c:if test="${pageData.orderDirection == 'ASC'}">
-			<a href="Home?orderBy=${field }&orderDirection=DESC"> <jsp:doBody />
+			<h:pageLink pageData="${pageData}" orderField="${field }" orderDir="DESC">
+			<jsp:doBody />
 				<span class="ui-icon ui-icon-carat-1-n"
 				style="float: left; margin-right: .3em;"></span>
-			</a>
+			</h:pageLink>
 		</c:if>
 		<c:if test="${pageData.orderDirection == 'DESC'}">
-			<a href="Home?orderBy=${field }&orderDirection=ASC"> <jsp:doBody /><span
-				class="ui-icon ui-icon-carat-1-s"
+			<h:pageLink pageData="${pageData}" orderField="${field }" orderDir="ASC">
+			 <jsp:doBody />
+			 <span class="ui-icon ui-icon-carat-1-s"
 				style="float: left; margin-right: .3em;"></span>
-			</a>
+			</h:pageLink>
 		</c:if>
 	</c:when>
 	<c:otherwise>
-		<a href="Home?orderBy=${field }"> <jsp:doBody /><span
-			class="ui-icon ui-icon-carat-2-n-s"
+		<h:pageLink pageData="${pageData}" orderField="${field }">
+			<jsp:doBody />
+			<span class="ui-icon ui-icon-carat-2-n-s"
 			style="float: left; margin-right: .3em;"></span>
-		</a>
+		</h:pageLink>
 	</c:otherwise>
 </c:choose>

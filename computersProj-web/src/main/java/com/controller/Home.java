@@ -1,8 +1,5 @@
 package com.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,51 +22,50 @@ public class Home {
 	private ComputerService computerService;
 
     @RequestMapping(method = RequestMethod.GET)
-	protected String doGet(ModelMap model, HttpServletRequest request) {
+	protected String doGet(ModelMap model, String orderBy , String orderDirection ,
+			String pageNum , String computersPerPage , String filterName ) {
 
 		PageWrapper page = new PageWrapper();
 				
-		HttpSession s = request.getSession();
-		if(s.getAttribute("pageData") != null){
-			page = (PageWrapper) s.getAttribute("pageData");
-		}
-		else{
-			page.setPageNumber(1);
-			page.setComputerPerPage(20);
-			page.setOrderDirection("ASC");
-			page.setOrderedBy("c.id");
-		}
+//		HttpSession s = request.getSession();
+//		if(s.getAttribute("pageData") != null){
+//			page = (PageWrapper) s.getAttribute("pageData");
+//		}
+//		else{
+//			page.setPageNumber(1);
+//			page.setComputerPerPage(20);
+//			page.setOrderDirection("ASC");
+//			page.setOrderedBy("c.id");
+//		}
 		
-		String orderBy = request.getParameter("orderBy");
+		page.setPageNumber(1);
+		page.setComputerPerPage(20);
+		page.setOrderDirection("ASC");
+		page.setOrderBy("c.id");
+		
 		if(orderBy != null){
-			page.setOrderedBy(orderBy);
+			page.setOrderBy(orderBy);
 			page.setPageNumber(1);
 		}
 		
-		String orderDirection = request.getParameter("orderDirection");
-		if(orderDirection != null){
+		if((orderDirection != null)&&(orderDirection != "")){
 			page.setOrderDirection(orderDirection);
 		}
 					
-		String strPageNum = request.getParameter("pageNum");
-		if(strPageNum != null) {
-			page.setPageNumber(Integer.valueOf(strPageNum));
+		if(pageNum != null) {
+			page.setPageNumber(Integer.valueOf(pageNum));
 		}
 		
-		String strNbrPerPage = request.getParameter("computersPerPage");
-		if(strNbrPerPage != null){
-			page.setComputerPerPage(Integer.valueOf(strNbrPerPage));
-		}
-				
-		String nomFiltre = request.getParameter("filterName");
-		
-		if(nomFiltre == null){
-			nomFiltre = page.getFilterName();
+		if(computersPerPage != null){
+			page.setComputerPerPage(Integer.valueOf(computersPerPage));
 		}
 		
+		if(filterName == null){
+			filterName = page.getFilterName();
+		}		
 		
-		if(nomFiltre != null && nomFiltre !=""){
-			page.setFilterName(nomFiltre);
+		if(filterName != null && filterName !=""){
+			page.setFilterName(filterName);
 			page.setPageNumber(1);
 			computerService.readByPage(page);			
 		}
@@ -80,9 +76,9 @@ public class Home {
 		
 		page.setNumberOfPages((Integer) (page.getTotalNumberOfRecords()/page.getComputerPerPage())+1); 	
 		
-		s.setAttribute("pageData" , page);
+//		s.setAttribute("pageData" , page);
 				
-		//request.setAttribute("pageData", page);
+		logger.debug(page.toString());
 		model.addAttribute("pageData",page);		
 		
 		if(page != null)

@@ -11,15 +11,13 @@ import com.dto.ComputerDTO;
 public class PageWrapper {
 	
 	private List<ComputerDTO> results;
-	private String orderedBy;
+	private String orderBy;
 	private String orderDirection;
 	private String filterName;
 	private int pageNumber;
 	private int computerPerPage;
 	private int totalNumberOfRecords;
-	private int numberOfPages;
-	
-	
+	private int numberOfPages;	
 
 	public String getFilterName() {
 		return filterName;
@@ -75,7 +73,7 @@ public class PageWrapper {
 		sb.append("Numero of page : ").append(this.getPageNumber());
 		sb.append("Records per page : ").append(this.getComputerPerPage());
 		sb.append("Number of pages : ").append(this.getNumberOfPages());
-		sb.append("Order by : ").append(this.getOrderedBy());
+		sb.append("Order by : ").append(this.getOrderBy());
 		sb.append("Direction : ").append(this.getOrderDirection());
 		sb.append("Filtred by : ").append(this.getFilterName());
 		sb.append("Results : ").append(this.getResults());
@@ -83,12 +81,12 @@ public class PageWrapper {
 		return sb.toString();
 	}
 
-	public String getOrderedBy() {
-		return orderedBy;
+	public String getOrderBy() {
+		return orderBy;
 	}
 
-	public void setOrderedBy(String orderedBy) {
-		this.orderedBy = orderedBy;
+	public void setOrderBy(String orderedBy) {
+		this.orderBy = orderedBy;
 	}
 
 	public int getComputerPerPage() {

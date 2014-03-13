@@ -1,7 +1,5 @@
 package com.controller;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,21 +28,21 @@ public class DeleteComputer {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-	protected String doGet(ModelMap model , HttpServletRequest request) {
-		String id = request.getParameter("idComputer");
-		LOG.debug("Id computer recieve : "+id);
+	protected String doGet(ModelMap model , String idComputer) {
+		
+		LOG.debug("Id computer recieve : "+idComputer);
 				
-		Computer c = computerService.readFilterByID(Long.valueOf(id));
+		Computer c = computerService.readFilterByID(Long.valueOf(idComputer));
 		ComputerDTO cDTO = MapComputer.computerToDTO(c);
-		request.setAttribute("computerDelete", cDTO);
+		
 		model.addAttribute("computerDelete",cDTO);
 		return "confirmationDeleteComputer";
     }
 
     @RequestMapping(method = RequestMethod.POST)
-	protected String doPost(ModelMap model , HttpServletRequest request) {
-		String computerId   = request.getParameter("computerId");
-				
+	protected String doPost(ModelMap model , String computerId) {
+		
+    	LOG.debug("idComputer : "+computerId);
 		computerService.delete(computerId);
 		
 		model.addAttribute("delete", true);		

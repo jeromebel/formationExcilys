@@ -78,9 +78,9 @@
 	$('.datepicker').datepicker("option", "dateFormat", "${dateFormat}");
 	$('.datepicker').datepicker("option", "changeYear", true);
 	
-	$.validate({
-		addValidClassOnAll : true
-	});
+// 	$.validate({
+// 		addValidClassOnAll : true
+// 	});
 </script>
 
 <jsp:include page="../../include/footer.jsp" />

@@ -25,7 +25,9 @@
 	</div>
 
 	<div class="pagination">
-		<h:PaginationLinks currPage="${pageData.pageNumber}"
+		<h:PaginationLinks
+			pageData="${pageData}"
+			currPage="${pageData.pageNumber}"
 			totalPages="${pageData.numberOfPages}"
 			computersPerPage="${pageData.computerPerPage}"></h:PaginationLinks>
 	</div>

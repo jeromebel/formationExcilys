@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.joda.time.format.DateTimeFormat;
@@ -43,32 +41,28 @@ public class EditComputer extends HttpServlet {
     }
 
 	@RequestMapping(method = RequestMethod.GET)
-	protected String doGet(ModelMap model, HttpServletRequest request) {
+	protected String doGet(ModelMap model,String idComputer) {
 				
-		String id = request.getParameter("idComputer");
-		HttpSession s = request.getSession();
-		if(id != null)
-			s.setAttribute("idComputer", id);
-		else
-			id = (String) s.getAttribute("idComputer");
-		
 		List<Company> companies = companyService.readAll();
-		request.setAttribute("companies", companies);
+		model.addAttribute("companies", companies);
 				
-		Computer c = computerService.readFilterByID(Long.valueOf(id));
+		Computer c = computerService.readFilterByID(Long.valueOf(idComputer));
 		
 		model.addAttribute("computerEdit", c);
-		model.addAttribute("companyId", c.getCompany().getId());
+		if(c.getCompany() != null)
+			model.addAttribute("companyId", c.getCompany().getId());
+		else
+			model.addAttribute("companyId", 0);
 		model.addAttribute("dateFormat",DateTimeFormat.patternForStyle("S-", LocaleContextHolder.getLocale()).toLowerCase());
 		
 		return "editComputer";
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	protected String doPost(ModelMap model, HttpServletRequest request ,
+	protected String doPost(ModelMap model, String computerId ,
 			@Valid Computer computerEdit, BindingResult result,
 			final RedirectAttributes redirectAttributes) {
-		String computerId = request.getParameter("computerId");
+
 		computerEdit.setId(Integer.valueOf(computerId));
 					
 		if(!result.hasErrors()){
@@ -84,16 +78,12 @@ public class EditComputer extends HttpServlet {
 			page.setPageNumber(1);
 			page.setComputerPerPage(20);
 			page.setOrderDirection("ASC");
-			page.setOrderedBy("c.id");
+			page.setOrderBy("c.id");
 			page.setFilterName(computerEdit.getName());
 			
 			computerService.readByPage(page);
 			
 			page.setNumberOfPages((Integer) (page.getTotalNumberOfRecords()/page.getComputerPerPage())+1);
-			
-			HttpSession s = request.getSession();
-			s.setAttribute("pageData" , page);
-			s.removeAttribute("idComputer");
 			
 			redirectAttributes.addFlashAttribute("pageData", page);			
 			return "redirect:Home";	

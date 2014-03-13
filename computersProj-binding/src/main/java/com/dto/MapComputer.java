@@ -46,7 +46,7 @@ public class MapComputer {
 		try{
 			comp.setId(Integer.valueOf(cDTO.getCompany().getId()));
 		} catch (NumberFormatException e){
-			comp.setId(0);
+			comp = null;
 			logger.debug("Company Id invalid");
 		}
 		if( cDTO.getCompany().getName() != null)

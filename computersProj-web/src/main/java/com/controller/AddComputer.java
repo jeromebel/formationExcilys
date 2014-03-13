@@ -2,8 +2,6 @@ package com.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.joda.time.format.DateTimeFormat;
@@ -40,31 +38,29 @@ public class AddComputer {
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
-	protected String doGet(ModelMap model, HttpServletRequest request) {
+	protected String doGet(ModelMap model) {
 		List<Company> companies = companyService.readAll();
 		model.addAttribute("computer", new Computer());
 		model.addAttribute("companies", companies);
-		model.addAttribute("dateFormat",DateTimeFormat.patternForStyle("S-", LocaleContextHolder.getLocale()).toLowerCase());
+		model.addAttribute(
+				"dateFormat",
+				DateTimeFormat.patternForStyle("S-",
+						LocaleContextHolder.getLocale()).toLowerCase());
 		return "addComputer";
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	protected String doPost(ModelMap model, HttpServletRequest request,
-			@Valid ComputerDTO computer, BindingResult result,
-			final RedirectAttributes redirectAttributes) {
+	protected String doPost(ModelMap model, @Valid ComputerDTO computer,
+			BindingResult result, final RedirectAttributes redirectAttributes) {
 
 		if (!result.hasErrors()) {
 
-			HttpSession s = request.getSession();
 			PageWrapper page = new PageWrapper();
-			if (s.getAttribute("pageData") != null) {
-				page = (PageWrapper) s.getAttribute("pageData");
-			} else {
-				page.setPageNumber(1);
-				page.setOrderDirection("id");
-				page.setComputerPerPage(20);
-				page.setOrderDirection("ASC");
-			}
+
+			page.setPageNumber(1);
+			page.setOrderDirection("id");
+			page.setComputerPerPage(20);
+			page.setOrderDirection("ASC");
 
 			page.setFilterName(computer.getName());
 
@@ -74,13 +70,14 @@ public class AddComputer {
 			page.setNumberOfPages((Integer) (page.getResults().size())
 					/ page.getComputerPerPage());
 
-			s.setAttribute("pageData", page);
-
-			redirectAttributes.addFlashAttribute("pageData", page);			
+			redirectAttributes.addFlashAttribute("pageData", page);
 			return "redirect:Home";
 		} else {
 			model.addAttribute("computer", computer);
-			model.addAttribute("dateFormat",DateTimeFormat.patternForStyle("S-", LocaleContextHolder.getLocale()).toLowerCase());
+			model.addAttribute(
+					"dateFormat",
+					DateTimeFormat.patternForStyle("S-",
+							LocaleContextHolder.getLocale()).toLowerCase());
 			return "addComputer";
 		}
 
