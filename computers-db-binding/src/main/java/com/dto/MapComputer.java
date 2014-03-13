@@ -49,6 +49,9 @@ public class MapComputer {
 			comp = null;
 			logger.debug("Company Id invalid");
 		}
+		if(comp.getId() == 0)
+			comp = null;
+			
 		if( cDTO.getCompany().getName() != null)
 			comp.setName(cDTO.getCompany().getName());	
 		c.setCompany(comp);

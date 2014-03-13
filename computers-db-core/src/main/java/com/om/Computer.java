@@ -1,5 +1,6 @@
 package com.om;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -20,7 +21,7 @@ public class Computer{
 	@GeneratedValue
 	@Id
 	private long id;
-	@ManyToOne(fetch=FetchType.EAGER , optional = true)
+	@ManyToOne(fetch=FetchType.EAGER , optional = true , cascade = CascadeType.PERSIST)
 	@JoinColumn(name="company_id" , nullable = true)
 	private Company company;
 	@Column(name="name", nullable = false)

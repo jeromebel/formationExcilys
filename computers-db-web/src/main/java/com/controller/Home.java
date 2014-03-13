@@ -26,17 +26,6 @@ public class Home {
 			String pageNum , String computersPerPage , String filterName ) {
 
 		PageWrapper page = new PageWrapper();
-				
-//		HttpSession s = request.getSession();
-//		if(s.getAttribute("pageData") != null){
-//			page = (PageWrapper) s.getAttribute("pageData");
-//		}
-//		else{
-//			page.setPageNumber(1);
-//			page.setComputerPerPage(20);
-//			page.setOrderDirection("ASC");
-//			page.setOrderedBy("c.id");
-//		}
 		
 		page.setPageNumber(1);
 		page.setComputerPerPage(20);
@@ -66,7 +55,6 @@ public class Home {
 		
 		if(filterName != null && filterName !=""){
 			page.setFilterName(filterName);
-			page.setPageNumber(1);
 			computerService.readByPage(page);			
 		}
 		else {

@@ -14,7 +14,7 @@
 		<form action="Home" method="GET">
 			<input type="search" id="searchbox" name="filterName" value=""
 				placeholder="Search name">
-			<button type="submit" class="btn primary">
+			<button name="pageNum" value="1" type="submit" class="btn primary">
 				<span class="ui-icon ui-icon-search"
 					style="float: left; margin-right: .3em;"></span>
 				<spring:message code="label.buttonsearch"></spring:message>
