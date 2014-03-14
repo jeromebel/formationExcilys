@@ -32,10 +32,17 @@
 		<jadira.version>2.0</jadira.version>
 		<javax.persistence.version>1.0.1.Final</javax.persistence.version>
 		<querydsl.version>3.3.1</querydsl.version>
+		<spring-data-jpa.version>1.5.0.RELEASE</spring-data-jpa.version>
 	</properties>
 
 	<dependencyManagement>
 		<dependencies>
+
+			<dependency>
+				<groupId>org.springframework.data</groupId>
+				<artifactId>spring-data-jpa</artifactId>
+				<version>${spring-data-jpa.version}</version>
+			</dependency>
 
 			<!-- QueryDSL -->
 			<dependency>

@@ -6,22 +6,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.dao.CompanyDAO;
 import com.om.Company;
+import com.repository.CompanyRepo;
 
 @Service
 @Transactional(readOnly=true)
 public class CompanyServiceImpl implements CompanyService {	
 	
 	@Autowired
-	private CompanyDAO companyDAO;
-	
-	/* (non-Javadoc)
-	 * @see com.services.CompanyService#readAll()
-	 */
+	private CompanyRepo companyRepo;
+
 	@Override
 	public List<Company> readAll(){		
-		List<Company> result = companyDAO.readAll();
+		List<Company> result = companyRepo.findAll();
 		return result;
 	}
 

@@ -21,7 +21,7 @@ public class Computer{
 	@GeneratedValue
 	@Id
 	private long id;
-	@ManyToOne(fetch=FetchType.EAGER , optional = true , cascade = CascadeType.PERSIST)
+	@ManyToOne(fetch=FetchType.EAGER , optional = true , cascade = CascadeType.DETACH)
 	@JoinColumn(name="company_id" , nullable = true)
 	private Company company;
 	@Column(name="name", nullable = false)

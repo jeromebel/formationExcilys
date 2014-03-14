@@ -1,104 +1,113 @@
 package com.services;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.dao.ComputerDAO;
-import com.dao.LogDAO;
 import com.dto.MapComputer;
 import com.om.Computer;
+import com.om.Log;
+import com.repository.ComputerRepo;
+import com.repository.LogRepo;
 import com.servlet.wrapper.PageWrapper;
 
 @Service("computerService")
-public class ComputerServiceImpl implements ComputerService{
-	
+public class ComputerServiceImpl implements ComputerService {
+
 	final Logger LOG = LoggerFactory.getLogger(ComputerServiceImpl.class);
 
 	@Autowired
-	private ComputerDAO computerDAO;
-	
-	@Autowired
-	private LogDAO logDB;
+	private ComputerRepo cRepo;
 
-	   
+	@Autowired
+	private LogRepo logDB;
+
 	@Override
-	@Transactional(readOnly=true)
+	@Transactional(readOnly = true)
 	public void readByPage(PageWrapper page) {
 
-		try {
-			List<Computer> computers;
-			computers = computerDAO.readByPage(page);
+		String orderField = page.getOrderBy();
+		if (orderField == null)
+			orderField = "c.id";
+		if (orderField.startsWith("c."))
+			orderField = orderField.substring(2);
+		if (orderField.startsWith("f."))
+			orderField = orderField.replaceAll("f.", "company.");
 
-			page.setResults(MapComputer.getComputersDTO(computers));
-		} catch (SQLException e) {
-			LOG.error("\nSQL error\nreadByPage");
-		}
+		Direction sortDirection;
+		if ("DESC".equals(page.getOrderDirection()))
+			sortDirection = Sort.Direction.DESC;
+		else
+			sortDirection = Sort.Direction.ASC;
+
+		PageRequest request = new PageRequest(page.getPageNumber()-1,
+				page.getComputerPerPage(), sortDirection, orderField);
+
+		Page<Computer> computersPage;
+		if (!"".equals(page.getFilterName()))
+			computersPage = cRepo.findByNameLike(request, "%"+page.getFilterName()+"%");
+		else
+			computersPage = cRepo.findAll(request);
+
+		page.setNumberOfPages(computersPage.getTotalPages());
+
+		page.setTotalNumberOfRecords((int) computersPage.getTotalElements());
+
+		List<Computer> computers = computersPage.getContent();
+		page.setResults(MapComputer.getComputersDTO(computers));
 
 	}
 
 	@Override
-	@Transactional(readOnly=true)
+	@Transactional(readOnly = true)
 	public Computer readFilterByID(Long id) {
 
-		try {
-			Computer result;
-			result = computerDAO.readFilterByID(id);
-			result.setId(id);
+		Computer result;
+		result = cRepo.findById(id);
+		result.setId(id);
 
-			return result;
-		} catch (SQLException e) {
-			LOG.error("\nSQL error\nreadFilterByID");
-		}
-		return null;
+		return result;
 	}
 
 	@Override
-	@Transactional(readOnly=false)
+	@Transactional(readOnly = false)
 	public void delete(String id) {
-		try {
-
-			computerDAO.delete(id);
-			logDB.create(Long.valueOf(id),
-					"Computer updated");
-		} catch (SQLException e) {
-			LOG.error("\nSQL error\ndelete");
-		}
+		Computer c = new Computer();
+		c = cRepo.findById(Long.valueOf(id));
+		cRepo.delete(c);
+		// cRepo.deleteById(Long.valueOf(id));
+		Log log = new Log();
+		log.setComputer(c);
+		log.setDescription("Computer "+c.getName()+" deleted");
+		logDB.save(log);
 	}
 
-
 	@Override
-	@Transactional(readOnly=false)
+	@Transactional(readOnly = false)
 	public void update(Computer c) {
-		try {
-
-			computerDAO.update(c);
-			logDB.create(c.getId(),
-					"Computer updated");
-
-		} catch (SQLException e) {
-			LOG.error("\nSQL error\nupdate");
-		}
+		cRepo.save(c);
+		Log log = new Log();
+		log.setComputer(c);
+		log.setDescription("Computer "+c.getName()+" updated");
+		logDB.save(log);
 	}
 
-
 	@Override
-	@Transactional(readOnly=false)
+	@Transactional(readOnly = false)
 	public void create(Computer c) {
-		try {
-			
-			computerDAO.create(c);
-			logDB.create(c.getId(),
-					"Add new computer");
-			
-		} catch (SQLException e) {
-			LOG.error("\nSQL error\ncreate");
-		}
+		cRepo.save(c);
+		Log log = new Log();
+		log.setComputer(c);
+		log.setDescription("Computer "+c.getName()+" created");
+		logDB.save(log);
 
 	}
 
