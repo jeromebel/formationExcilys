@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>formation</groupId>
 		<artifactId>computers-db-proj</artifactId>
-		<version>2.2.0-SNAPSHOT</version>
+		<version>3.4.0-RELEASE</version>
 	</parent>
 	<artifactId>computers-db-persistence</artifactId>
 	<name>computers-db-persistence</name>
@@ -18,13 +18,13 @@
 		<dependency>
 			<groupId>formation</groupId>
 			<artifactId>computers-db-core</artifactId>
-			<version>2.2.0-SNAPSHOT</version>
+			<version>3.4.0-RELEASE</version>
 		</dependency>
 
 		<dependency>
 			<groupId>formation</groupId>
 			<artifactId>computers-db-binding</artifactId>
-			<version>2.2.0-SNAPSHOT</version>
+			<version>3.4.0-RELEASE</version>
 		</dependency>
 
 		<dependency>
