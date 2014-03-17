@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class Login {
 
 	 @RequestMapping(method = RequestMethod.GET)
-		protected String doGet(ModelMap model , String idComputer) {
-			
+		protected String doGet(ModelMap model , String idComputer , String failed) {
+		 	if (failed != null){
+		 		model.addAttribute("errorCode", "loginfail");
+		 	}			
 			return "loginPage";
 	    }
 	 

@@ -11,6 +11,10 @@
 	<h1>
 		<spring:message code="label.header.login"></spring:message>
 	</h1>
+	
+	<c:if test="${errorCode != null}">
+	<div class="ui-state-error ui-corner-all"> <spring:message code="error.${errorCode}" /></div>
+	</c:if>
 
 	<form method="POST" action="j_spring_security_check">
 		<table>

@@ -8,22 +8,28 @@
 
 	<http auto-config='true'>
 		<intercept-url pattern="/Login" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-		<intercept-url pattern="/Home" access="ROLE_USER" />
+		<intercept-url pattern="/Home" access="ROLE_USER,ROLE_ADMIN" />
 		<intercept-url pattern="/DeleteComputer" access="ROLE_ADMIN" />
 		<intercept-url pattern="/EditComputer" access="ROLE_ADMIN" />
-		<intercept-url pattern="/AddComputer" access="ROLE_ADMIN" />	
+		<intercept-url pattern="/AddComputer" access="ROLE_ADMIN" />
 		<intercept-url pattern="/resources/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
-		<http-basic />
-		<form-login login-page='/Login' default-target-url='/Home' 
-			always-use-default-target='true' />
+		<form-login login-page='/Login' default-target-url='/Home'
+			always-use-default-target='true' 			
+			authentication-failure-url="/Login?failed=" />
 	</http>
 
 	<authentication-manager>
-		<authentication-provider>		
-			<user-service>
-				<user name="admin" password="admin" authorities="ROLE_USER, ROLE_ADMIN" />
-				<user name="user" password="user" authorities="ROLE_USER" />
-			</user-service>
+		<authentication-provider>
+			<password-encoder hash="sha" />
+			<jdbc-user-service data-source-ref="dataSource"
+
+				users-by-username-query="
+		      select username,password, enabled 
+		      from users where username=?"
+
+				authorities-by-username-query="
+		      select u.username, ur.authority from users u, user_roles ur 
+		      where u.user_id = ur.user_id and u.username =?  " />
 		</authentication-provider>
 	</authentication-manager>
 
