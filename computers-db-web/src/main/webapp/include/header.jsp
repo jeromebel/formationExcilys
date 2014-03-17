@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,11 +18,24 @@
 </head>
 <body>
 	<header class="topbar">
-		<div>
-			<h1 class="fill">
-				<a href="index.jsp"> Application - Computer Database </a> <a
-					href="?lang=en">EN</a> <a href="?lang=fr">FR</a>
-			</h1>
+		<div class="fill">
+			<div class="pull-left">
+				<h1>
+					<a href="index.jsp"> Application - Computer Database </a>
+
+				</h1>
+			</div>
+			<div class="pull-right">
+				<a href="?lang=en"><button type="submit" class="btn btn-sm">
+						EN</button></a>
+				<a href="?lang=fr"><button type="submit" class="btn btn-sm">
+						FR</button></a>
+				<form method="POST" action="j_spring_security_logout">
+					<button type="submit" class="btn btn-sm">
+						<spring:message code="label.logout" />
+					</button>
+				</form>
+			</div>
 		</div>
 	</header>
 </body>

@@ -9,6 +9,10 @@
 		<error-code>404</error-code>
 		<location>/WEB-INF/errors/error404.jsp</location>
 	</error-page>
+	<error-page>
+		<error-code>403</error-code>
+		<location>/WEB-INF/errors/error403.jsp</location>
+	</error-page>	
 
 	<error-page>
 		<error-code>500</error-code>
