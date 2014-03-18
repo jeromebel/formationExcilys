@@ -15,6 +15,7 @@
 		<module>computers-db-service</module>
 		<module>computers-db-web</module>
 		<module>computers-db-persitence</module>
+		<module>computers-db-webservice</module>
 	</modules>
 
 
